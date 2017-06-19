@@ -1,0 +1,11 @@
+{
+    "name": "bs-snabbdom",
+    "bs-dependencies" : [],
+    "package-specs": ["es6"],
+    "sources": [
+        {
+            "dir": "src",
+            "subdirs": []
+        }
+    ]
+}
