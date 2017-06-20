@@ -1,5 +1,5 @@
-Bucklescript Snabbdom
-=====================
+Bucklescript + Snabbdom
+=======================
 
 These are *highly experimental and incomplete* bindings to Snabbdom for Bucklescript.
 
