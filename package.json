@@ -5,15 +5,19 @@
   "main": "index.js",
   "scripts": {
     "build": "bsb && rollup --config",
-    "dev": "./scripts/dev_watch.sh"
+    "dev": "./scripts/dev_watch.sh",
+    "clean": "bsb -clean-world"
   },
   "author": "Jordan West",
   "license": "MIT",
   "peerDependencies": {
-    "bs-platform": "^1.7.5",
+    "bs-platform": "^1.7.5"
+  },
+  "dependencies": {
     "snabbdom": "^0.6.9"
   },
   "devDependencies": {
+    "bs-platform": "^1.7.5",
     "http-server": "^0.10.0",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",

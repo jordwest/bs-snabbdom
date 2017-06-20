@@ -2,3 +2,4 @@ node_modules
 lib/bs
 .merlin
 dist/main.bundle.js
+lib/ocaml

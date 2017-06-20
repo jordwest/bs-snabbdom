@@ -1,5 +1,5 @@
 
-let h = Snabbdom.h
+let h = Snabbdom_base.h
 
 let div = h "div"
 let h1 = h "h1"

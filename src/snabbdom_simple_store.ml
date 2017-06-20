@@ -1,3 +1,7 @@
+(**
+  * This is not actually part of Snabbdom. It's a simple
+  * Redux-like store that can optional be used easily with Snabbdom.
+  *)
 
 type ('state, 'action) t = {
     mutable state: 'state;

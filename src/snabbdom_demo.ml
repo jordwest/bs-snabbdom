@@ -1,4 +1,7 @@
-open Snabbdom
+open Snabbdom.Base
+module Html = Snabbdom.Html
+module Events = Snabbdom.Events
+module Store = Snabbdom.Simple_store
 
 let patch = init [|
     module_props;
@@ -119,7 +122,7 @@ let view store =
 exception No_root_element
 
 let vnode = ref (match (get_element_by_id document "app") with
-    | Some el -> dom_as_vnode el
+    | Some el -> vnode_of_dom el
     | None -> raise No_root_element
     )
 
