@@ -1,29 +1,6 @@
 
-type snabb_data
-type vnode
-
-external _h : string -> snabb_data -> vnode array -> vnode = "h" [@@bs.module "snabbdom"]
-external _h_text : string -> snabb_data -> string -> vnode = "h" [@@bs.module "snabbdom"]
-
-type prop = string * string
-type style = string * string
-type 'a event_cb = ('a -> unit)
-
-type node_info = Text of string
-               | Style of style
-               | StyleDelay of style
-               | StyleRemove of style
-               | Props of prop list
-               | Prop of string * string
-               | Children of vnode list
-               | EventListener of (string * Dom.event event_cb)
-               | Key of string
-               | Ignore
-
-(*
-external a : Dom.dragEvent = ""
-let x = EventListener ("abc", a)
-*)
+open Snabbdom_props
+open Snabbdom_external
 
 exception Not_supported
 exception Children_not_allowed_with_text
@@ -49,8 +26,8 @@ var bs_snabbdom = {
 };
 |}]
 
-external empty_data : unit -> snabb_data = "empty_data" [@@bs.val] [@@bs.scope "bs_snabbdom"]
-external set_in_path : snabb_data -> string array -> 'a -> snabb_data = "set_in_path" [@@bs.val] [@@bs.scope "bs_snabbdom"]
+external empty_data : unit -> data = "empty_data" [@@bs.val] [@@bs.scope "bs_snabbdom"]
+external set_in_path : data -> string array -> 'a -> data = "set_in_path" [@@bs.val] [@@bs.scope "bs_snabbdom"]
 
 let h selector (props: node_info list) =
 let snabb_props = (empty_data (), [||], None) in
@@ -86,6 +63,3 @@ external init : submodule array -> patchfn = "init" [@@bs.module "snabbdom"]
 external module_props : submodule = "default" [@@bs.module "snabbdom/modules/props"]
 external module_eventlisteners : submodule = "default" [@@bs.module "snabbdom/modules/eventlisteners"]
 external module_style : submodule = "default" [@@bs.module "snabbdom/modules/style"]
-
-let prop key value = Prop (key, value)
-let style key value = Style (key, value)

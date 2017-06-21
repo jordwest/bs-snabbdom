@@ -1,4 +1,5 @@
 open Snabbdom.Base
+open Snabbdom.Props
 module Html = Snabbdom.Html
 module Events = Snabbdom.Events
 module Store = Snabbdom.Simple_store
@@ -37,7 +38,7 @@ let checkbox (checked:bool) onCheck (label_text:string) =
     Html.label
         [ Children
             [ Html.input
-                [ EventListener ("change", onCheck)
+                [ Events.change onCheck
                 ; prop "type" "checkbox"
                 ; prop "checked" (if checked then "checked" else "")
                 ]
@@ -62,7 +63,7 @@ let item store s =
             Html.h "td" [Children [
                 Html.h "a" [
                     prop "href" "javascript:;";
-                    EventListener ("mousemove", del);
+                    Events.mousemove del;
                     Text s
                 ]
             ]]
@@ -77,6 +78,7 @@ let view store =
         Store.dispatch store action
     in
 
+    (*let onChange (ev:Dom.keyboardEvent Dom.event_like) = Events.next_tick (fun () ->*)
     let onChange ev = Events.next_tick (fun () ->
         let value = (ev |> Events.get_target |> Events.get_value) in
         Store.dispatch store (SetText value)
@@ -92,22 +94,13 @@ let view store =
             Html.h1 [Text ("Hello " ^ string_of_int state.count)];
             Html.p [Text ("This is some paragraph text. " ^ state.name)];
             Html.input [
-                EventListener ("keydown", onChange);
+                Events.keydown onChange;
                 prop "placeholder" "Some placeholder text";
                 prop "value" state.name;
             ];
-            Html.button [
-                EventListener ("click", cb AddItem);
-                Text "Add"
-            ];
-            Html.button [
-                EventListener ("click", cb Increment);
-                Text "+"
-            ];
-            Html.button [
-                EventListener ("click", cb Decrement);
-                Text "-"
-            ];
+            Html.button [ Events.click (cb AddItem); Text "Add" ];
+            Html.button [ Events.click (cb Increment); Text "+" ];
+            Html.button [ Events.click (cb Decrement); Text "-" ];
             checkbox state.show_items onCheck "This is some label";
         ];
         if state.show_items then
