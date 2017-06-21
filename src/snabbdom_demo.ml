@@ -144,10 +144,10 @@ let reducer state action =
         | DragEnd -> { state with dragging = false }
         | ToggleShow show -> { state with show_items = show }
 
-let logging_middleware next store action =
+let logging_middleware store next action =
     print_endline "Action:";
     Js.log action;
-    next store action;
+    next action;
     print_endline "New state:";
     Js.log (Store.get_state store)
 
