@@ -32,15 +32,24 @@ external set_in_path : data -> string array -> 'a -> data = "set_in_path" [@@bs.
 let h selector (props: node_info list) =
 let snabb_props = (empty_data (), [||], None) in
     let set_prop data (k, v) = set_in_path data [|"props"; k|] v in
+    let set_attr data (k, v) = set_in_path data [|"attrs"; k|] v in
+    let set_class data (c) = set_in_path data [|"class"; c|] Js.true_ in
 
     let reducer (data, children, text) (prop: node_info) = match prop with
         | Text v -> (data, children, Some v)
+        | Class c -> (set_class data c, children, text)
         | Children l -> (data, Array.append children (Array.of_list l), text)
+        | Hook (k, v) -> (match v with
+            | Zero cb -> (set_in_path data [|"hook"; k|] cb, children, text)
+            | One cb -> (set_in_path data [|"hook"; k|] cb, children, text)
+            | Two cb -> (set_in_path data [|"hook"; k|] cb, children, text)
+        )
         | Style (k, v) -> (set_in_path data [|"style"; k|] v, children, text)
         | StyleDelay (k, v) -> (set_in_path data [|"style"; "delayed"; k|] v, children, text)
         | StyleRemove (k, v) -> (set_in_path data [|"style"; "remove"; k|] v, children, text)
         | Props l -> (List.fold_left set_prop data l, children, text)
         | Prop (k, v) -> (set_prop data (k,v), children, text)
+        | Attr (k, v) -> (set_attr data (k,v), children, text)
         | EventListener (key, cb) -> (set_in_path data [|"on"; key|] cb, children, text)
         | Key v -> (set_in_path data [|"key"|] v, children, text)
         | Ignore -> (data, children, text)
@@ -63,3 +72,5 @@ external init : submodule array -> patchfn = "init" [@@bs.module "snabbdom"]
 external module_props : submodule = "default" [@@bs.module "snabbdom/modules/props"]
 external module_eventlisteners : submodule = "default" [@@bs.module "snabbdom/modules/eventlisteners"]
 external module_style : submodule = "default" [@@bs.module "snabbdom/modules/style"]
+external module_class : submodule = "default" [@@bs.module "snabbdom/modules/class"]
+external module_attributes : submodule = "default" [@@bs.module "snabbdom/modules/attributes"]
