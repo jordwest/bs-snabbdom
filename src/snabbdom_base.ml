@@ -30,7 +30,7 @@ external empty_data : unit -> data = "empty_data" [@@bs.val] [@@bs.scope "bs_sna
 external set_in_path : data -> string array -> 'a -> data = "set_in_path" [@@bs.val] [@@bs.scope "bs_snabbdom"]
 
 let h selector (props: node_info list) =
-let snabb_props = (empty_data (), [||], None) in
+  let snabb_props = (empty_data (), [||], None) in
     let set_prop data (k, v) = set_in_path data [|"props"; k|] v in
     let set_attr data (k, v) = set_in_path data [|"attrs"; k|] v in
     let set_class data (c) = set_in_path data [|"class"; c|] Js.true_ in
