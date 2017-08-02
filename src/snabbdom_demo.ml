@@ -113,7 +113,7 @@ let view store =
 exception No_root_element
 
 let vnode = ref (match (Snabbdom_external.Dom.get_element_by_id Snabbdom_external.Dom.document "app") with
-    | Some el -> Snabbdom_external.vnode_of_dom el
+    | Some el -> Snabbdom_external.VNode.of_dom_element el
     | None -> raise No_root_element
     )
 

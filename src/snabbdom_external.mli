@@ -21,6 +21,16 @@ module VNode : sig
     type t
 
     val get_elm : t -> Dom.element
+
+    (** Compile-time conversion of DOM elements to a Snabbdom vnode.
+
+        This function doesn't actually do anything at runtime.
+        Since the Snabbdom patch function allows us to use
+        an existing DOM element as an 'old' vnode, this function
+        just explicitly tells the compiler that we know what we're
+        doing.
+    *)
+    val of_dom_element : Dom.element -> t
 end
 
 (** A Snabbdom patch function (returned by `init`) which takes an old DOM element or vnode and patches it to match a new vnode *)
@@ -40,16 +50,6 @@ val h_text : string -> Data.t -> string -> VNode.t
 
 (** Create a Snabbdom patch function from an array of snabbdom modules. *)
 val init : snabbdom_module array -> patchfn
-
-(** Compile-time conversion of DOM elements to a Snabbdom vnode.
-
-    This function doesn't actually do anything at runtime.
-    Since the Snabbdom patch function allows us to use
-    an existing DOM element as an 'old' vnode, this function
-    just explicitly tells the compiler that we know what we're
-    doing.
-*)
-val vnode_of_dom : Dom.element -> VNode.t
 
 module Dom : sig
     val focus : Dom.element -> unit

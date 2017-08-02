@@ -38,6 +38,7 @@ module VNode = struct
     type t
 
     external get_elm : t -> Dom.element = "elm" [@@bs.get]
+    external of_dom_element : Dom.element -> t = "%identity"
 end
 
 type patchfn = VNode.t -> VNode.t -> unit
@@ -46,7 +47,6 @@ type snabbdom_module
 external h : string -> Data.t -> VNode.t array -> VNode.t = "h" [@@bs.module "snabbdom"]
 external h_text : string -> Data.t -> string -> VNode.t = "h" [@@bs.module "snabbdom"]
 
-external vnode_of_dom : Dom.element -> VNode.t = "%identity"
 external init : snabbdom_module array -> patchfn = "init" [@@bs.module "snabbdom"]
 
 (* Bindings to some standard DOM functions. Some of these might be implemented in the Bucklescript,
