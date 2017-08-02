@@ -1,5 +1,12 @@
-open Snabbdom_external
+open Snabbdom_base
+module Ex = Snabbdom_external
 
-let insert cb = Snabbdom_props.Hook ("insert", (One cb))
+let hook key cb =
+    set_data_path [|"hook"; key|] cb
+let hook0 key (cb: unit -> unit) = hook key cb
+let hook1 key (cb: Ex.VNode.t -> unit) = hook key cb
+let hook2 key (cb: Ex.VNode.t -> Ex.VNode.t -> unit) = hook key cb
 
-let autofocus = insert (fun(n) -> focus (get_elm n); ());
+let insert cb = hook1 "insert" cb
+
+let autofocus = insert (fun(n) -> Ex.Dom.focus (Ex.VNode.get_elm n); ());

@@ -12,13 +12,12 @@
   "author": "Jordan West",
   "license": "MIT",
   "peerDependencies": {
-    "bs-platform": "^1.7.5"
-  },
-  "dependencies": {
     "snabbdom": "^0.6.9"
   },
+  "dependencies": {},
   "devDependencies": {
     "bs-platform": "^1.8.1",
+    "snabbdom": "^0.6.9",
     "http-server": "^0.10.0",
     "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",

@@ -1,10 +1,9 @@
 open Snabbdom.Base
 open Snabbdom.Props
-module Html = Snabbdom.Html
-module Events = Snabbdom.Events
+open Snabbdom.Events
 module Store = Snabbdom.Simple_store
 
-let patch = init [|
+let patch = Snabbdom_external.init [|
     module_props;
     module_eventlisteners;
     module_style;
@@ -35,14 +34,14 @@ let rec many_items items i max =
             many_items (List.append [ "Item " ^ string_of_int i ] items) (i+1) max
 
 let checkbox (checked:bool) onCheck (label_text:string) =
-    Html.label
-        [ Children
-            [ Html.input
-                [ Events.change onCheck
+    h "label"
+        [ children
+            [ h "input"
+                [ change onCheck
                 ; prop "type" "checkbox"
                 ; prop "checked" (if checked then "checked" else "")
                 ]
-            ; Html.span [style "font-weight" "bold"; Text label_text];
+            ; h "span" [style "font-weight" "bold"; text label_text];
             ]
         ]
 
@@ -51,20 +50,20 @@ let item store s =
         Store.dispatch store (Delete s)
     in
 
-    Html.h "tr" [
-        Key s;
+    h "tr" [
+        key s;
         style "line-height" "0";
         style "opacity" "1";
         style "transition" "line-height 0.3s, opacity 0.3s";
-        StyleDelay ("line-height", "1");
-        StyleRemove ("line-height", "0");
-        StyleRemove ("opacity", "0");
-        Children [
-            Html.h "td" [Children [
-                Html.h "a" [
+        style_delayed "line-height" "1";
+        style_remove "line-height" "0";
+        style_remove "opacity" "0";
+        children [
+            h "td" [children [
+                h "a" [
                     prop "href" "javascript:;";
-                    Events.mousemove del;
-                    Text s
+                    mousemove del;
+                    text s
                 ]
             ]]
     ]]
@@ -73,49 +72,48 @@ let view store =
     let state = Store.get_state store in
 
     let cb action ev =
-        Events.prevent_default ev;
-        Events.stop_propagation ev;
+        Snabbdom_external.Dom.prevent_default ev;
+        Snabbdom_external.Dom.stop_propagation ev;
         Store.dispatch store action
     in
 
-    (*let onChange (ev:Dom.keyboardEvent Dom.event_like) = Events.next_tick (fun () ->*)
-    let onChange ev = Events.next_tick (fun () ->
-        let value = (ev |> Events.get_target |> Events.get_value) in
+    let onChange ev = next_tick (fun () ->
+        let value = (ev |> Snabbdom_external.Dom.get_target |> Snabbdom_external.Dom.get_value) in
         Store.dispatch store (SetText value)
     ) in
 
     let onCheck ev =
-        let value = (ev |> Events.get_target |> Events.is_checked ) in
+        let value = (ev |> Snabbdom_external.Dom.get_target |> Snabbdom_external.Dom.is_checked ) in
         Store.dispatch store (ToggleShow value)
     in
 
-    Html.div [
-        Children [
-            Html.h1 [Text ("Hello " ^ string_of_int state.count)];
-            Html.p [Text ("This is some paragraph text. " ^ state.name)];
-            Html.input [
-                Events.keydown onChange;
+    h "div" [
+        children [
+            h "h1" [text ("Hello " ^ string_of_int state.count)];
+            h "p" [text ("This is some paragraph text. " ^ state.name)];
+            h "input" [
+                keydown onChange;
                 prop "placeholder" "Some placeholder text";
                 prop "value" state.name;
             ];
-            Html.button [ Events.click (cb AddItem); Text "Add" ];
-            Html.button [ Events.click (cb Increment); Text "+" ];
-            Html.button [ Events.click (cb Decrement); Text "-" ];
+            h "button" [ click (cb AddItem); text "Add" ];
+            h "button" [ click (cb Increment); text "+" ];
+            h "button" [ click (cb Decrement); text "-" ];
             checkbox state.show_items onCheck "This is some label";
         ];
         if state.show_items then
-            Children [ h "table" [
+            children [ h "table" [
                 prop "border" "1";
-                Children (List.map (item store) state.items)
+                children (List.map (item store) state.items)
             ] ]
         else
-            Ignore
+            nothing
     ]
 
 exception No_root_element
 
-let vnode = ref (match (get_element_by_id document "app") with
-    | Some el -> vnode_of_dom el
+let vnode = ref (match (Snabbdom_external.Dom.get_element_by_id Snabbdom_external.Dom.document "app") with
+    | Some el -> Snabbdom_external.VNode.of_dom_element el
     | None -> raise No_root_element
     )
 
