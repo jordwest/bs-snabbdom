@@ -1,6 +1,6 @@
 open Snabbdom.Base
 open Snabbdom.Props
-module Events = Snabbdom.Events
+open Snabbdom.Events
 module Store = Snabbdom.Simple_store
 
 let patch = Snabbdom_external.init [|
@@ -35,13 +35,13 @@ let rec many_items items i max =
 
 let checkbox (checked:bool) onCheck (label_text:string) =
     h "label"
-        [ add_children
+        [ children
             [ h "input"
-                [ Events.change onCheck
+                [ change onCheck
                 ; prop "type" "checkbox"
                 ; prop "checked" (if checked then "checked" else "")
                 ]
-            ; h "span" [set_style "font-weight" "bold"; set_text label_text];
+            ; h "span" [style "font-weight" "bold"; text label_text];
             ]
         ]
 
@@ -51,19 +51,19 @@ let item store s =
     in
 
     h "tr" [
-        set_key s;
-        set_style "line-height" "0";
-        set_style "opacity" "1";
-        set_style "transition" "line-height 0.3s, opacity 0.3s";
-        set_style_delayed "line-height" "1";
-        set_style_remove "line-height" "0";
-        set_style_remove "opacity" "0";
-        add_children [
-            h "td" [add_children [
+        key s;
+        style "line-height" "0";
+        style "opacity" "1";
+        style "transition" "line-height 0.3s, opacity 0.3s";
+        style_delayed "line-height" "1";
+        style_remove "line-height" "0";
+        style_remove "opacity" "0";
+        children [
+            h "td" [children [
                 h "a" [
                     prop "href" "javascript:;";
-                    Events.mousemove del;
-                    set_text s
+                    mousemove del;
+                    text s
                 ]
             ]]
     ]]
@@ -77,8 +77,7 @@ let view store =
         Store.dispatch store action
     in
 
-    (*let onChange (ev:Dom.keyboardEvent Dom.event_like) = Events.next_tick (fun () ->*)
-    let onChange ev = Events.next_tick (fun () ->
+    let onChange ev = next_tick (fun () ->
         let value = (ev |> Snabbdom_external.Dom.get_target |> Snabbdom_external.Dom.get_value) in
         Store.dispatch store (SetText value)
     ) in
@@ -89,23 +88,23 @@ let view store =
     in
 
     h "div" [
-        add_children [
-            h "h1" [set_text ("Hello " ^ string_of_int state.count)];
-            h "p" [set_text ("This is some paragraph text. " ^ state.name)];
+        children [
+            h "h1" [text ("Hello " ^ string_of_int state.count)];
+            h "p" [text ("This is some paragraph text. " ^ state.name)];
             h "input" [
-                Events.keydown onChange;
+                keydown onChange;
                 prop "placeholder" "Some placeholder text";
                 prop "value" state.name;
             ];
-            h "button" [ Events.click (cb AddItem); set_text "Add" ];
-            h "button" [ Events.click (cb Increment); set_text "+" ];
-            h "button" [ Events.click (cb Decrement); set_text "-" ];
+            h "button" [ click (cb AddItem); text "Add" ];
+            h "button" [ click (cb Increment); text "+" ];
+            h "button" [ click (cb Decrement); text "-" ];
             checkbox state.show_items onCheck "This is some label";
         ];
         if state.show_items then
-            add_children [ h "table" [
+            children [ h "table" [
                 prop "border" "1";
-                add_children (List.map (item store) state.items)
+                children (List.map (item store) state.items)
             ] ]
         else
             nothing
