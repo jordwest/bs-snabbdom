@@ -1,11 +1,11 @@
 open Snabbdom_base
-open Snabbdom_external.Dom
+module Ex = Snabbdom_external
 
 external module_eventlisteners : Ex.snabbdom_module = "default" [@@bs.module "snabbdom/modules/eventlisteners"]
 
 (* Helper for waiting until post-render before calling a callback *)
 let next_tick cb =
-    let _ = set_timeout cb 0 in
+    let _ = Ex.Dom.set_timeout cb 0 in
     ()
 
 type 'a event_cb = ('a -> unit)
