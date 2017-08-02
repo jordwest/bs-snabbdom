@@ -23,10 +23,10 @@ type node_params_transformer = node_params -> node_params
 (** The recommended function for creating Snabbdom vnodes. Note this function
     doesn't work exactly like {{:https://github.com/snabbdom/snabbdom#snabbdomh} Snabbdom's `h` function}
 
-    Since we're working in a typed language, bs-snabbdom provides a different
-    method for constructing the vnodes.
-
-    {e Note: If you really need it, the lower level binding is also defined in {!val:Snabbdom_external.h}.}
+    Since we're working in a different language, bs-snabbdom provides a slightly different
+    h function for constructing the vnodes that better works with OCaml. Underneath, we
+    still use the `h` function to create the vnodes. {e Note: If you really need it, the
+    lower level binding is also defined in {!val:Snabbdom_external.h}.}
 
     The first parameter is the same as Snabbdom's - an html selector describing the element
     type and any classes/id to apply to the element.

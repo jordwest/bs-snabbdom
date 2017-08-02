@@ -39,6 +39,24 @@ div.info {
     background-color: #eee;
 }
 
+td {
+    margin: 0;
+    padding: 0;
+}
+
+td.module a {
+    font-family: monospace;
+    display: block;
+    padding: 15px;
+    background-color: #eee;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #00a;
+}
+td.module a:hover {
+    text-decoration: underline;
+}
+
 td div.info {
     margin: 0;
 }
