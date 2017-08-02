@@ -1,5 +1,6 @@
+open Snabbdom_base
 open Snabbdom_external
 
-let insert cb = Snabbdom_props.Hook ("insert", (One cb))
+let insert cb = set_hook1 "insert" cb
 
-let autofocus = insert (fun(n) -> focus (get_elm n); ());
+let autofocus = insert (fun(n) -> Dom.focus (VNode.get_elm n); ());

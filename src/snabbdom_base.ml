@@ -1,76 +1,57 @@
 
-open Snabbdom_props
-open Snabbdom_external
+(* Use the external Snabbdom bindings via Ex *)
+module Ex = Snabbdom_external
 
 exception Not_supported
 exception Children_not_allowed_with_text
 
-(* Helper functions for manipulating Snabbdom data plain JS object *)
-[%%bs.raw{|
-var bs_snabbdom = {
-    empty_data: function() { return {}; },
-    set_in_path: function(data, path, value){
-        var base = data || {};
-        var ref = base;
-        while(path.length > 1){
-            var next = path.shift();
-            ref[next] = ref[next] || {};
-            ref = ref[next];
-        }
-        if(path.length == 1) {
-            var next = path.shift();
-            ref[next] = value;
-        }
-        return base;
-    }
-};
-|}]
+let empty_node_params () = (Ex.Data.empty (), [], None)
 
-external empty_data : unit -> data = "empty_data" [@@bs.val] [@@bs.scope "bs_snabbdom"]
-external set_in_path : data -> string array -> 'a -> data = "set_in_path" [@@bs.val] [@@bs.scope "bs_snabbdom"]
-
-let h selector (props: node_info list) =
-  let snabb_props = (empty_data (), [||], None) in
-    let set_prop data (k, v) = set_in_path data [|"props"; k|] v in
-    let set_attr data (k, v) = set_in_path data [|"attrs"; k|] v in
-    let set_class data (c) = set_in_path data [|"class"; c|] Js.true_ in
-
-    let reducer (data, children, text) (prop: node_info) = match prop with
-        | Text v -> (data, children, Some v)
-        | Class c -> (set_class data c, children, text)
-        | Children l -> (data, Array.append children (Array.of_list l), text)
-        | Hook (k, v) -> (match v with
-            | Zero cb -> (set_in_path data [|"hook"; k|] cb, children, text)
-            | One cb -> (set_in_path data [|"hook"; k|] cb, children, text)
-            | Two cb -> (set_in_path data [|"hook"; k|] cb, children, text)
-        )
-        | Style (k, v) -> (set_in_path data [|"style"; k|] v, children, text)
-        | StyleDelay (k, v) -> (set_in_path data [|"style"; "delayed"; k|] v, children, text)
-        | StyleRemove (k, v) -> (set_in_path data [|"style"; "remove"; k|] v, children, text)
-        | Props l -> (List.fold_left set_prop data l, children, text)
-        | Prop (k, v) -> (set_prop data (k,v), children, text)
-        | Attr (k, v) -> (set_attr data (k,v), children, text)
-        | EventListener (key, cb) -> (set_in_path data [|"on"; key|] cb, children, text)
-        | Key v -> (set_in_path data [|"key"|] v, children, text)
-        | Ignore -> (data, children, text)
-    in
-
-    let snabb_props = List.fold_left reducer snabb_props props in
+type node_params = ( Ex.Data.t * Ex.VNode.t list * string option )
+type node_params_transformer = node_params -> node_params
+let h selector (transformers: node_params_transformer list) =
+    let transform (node_params:node_params) (transformer:node_params_transformer) =
+        transformer node_params in
+    let snabb_props = List.fold_left transform (empty_node_params ()) transformers in
     match snabb_props with
-        | (data, children, None) -> _h selector data children
-        | (data, [||], Some t) -> _h_text selector data t
+        | (data, children, None) -> Ex.h selector data (Array.of_list children)
+        | (data, [], Some t) -> Ex.h_text selector data t
         | (_, _, Some _) -> raise Children_not_allowed_with_text
 
-type submodule
-type patchfn = vnode -> vnode -> unit
+(* ==== Transformers ====  *)
+(* General *)
+let set_data_path path value ((data, children, text):node_params) : node_params =
+    (Ex.Data.set_in_path data path value, children, text)
+let add_children (new_children:Ex.VNode.t list) ((data, children, text):node_params) : node_params =
+    (data, children @ new_children, text)
+let set_text new_text ((data, children, _):node_params) : node_params =
+    (data, children, Some new_text)
+let set_key (key:string) = set_data_path [|"key"|] key
+let nothing (a:node_params) = a 
 
-external document : Dom.document = "" [@@bs.val]
-external get_element_by_id : Dom.document -> string -> Dom.element option = "getElementById" [@@bs.send] [@@bs.return null_to_opt]
-external vnode_of_dom : Dom.element -> vnode = "%identity"
-external init : submodule array -> patchfn = "init" [@@bs.module "snabbdom"]
+(* Attribute module *)
+let set_attr key (value:string) = set_data_path [|"attrs"; key|] value
 
-external module_props : submodule = "default" [@@bs.module "snabbdom/modules/props"]
-external module_eventlisteners : submodule = "default" [@@bs.module "snabbdom/modules/eventlisteners"]
-external module_style : submodule = "default" [@@bs.module "snabbdom/modules/style"]
-external module_class : submodule = "default" [@@bs.module "snabbdom/modules/class"]
-external module_attributes : submodule = "default" [@@bs.module "snabbdom/modules/attributes"]
+(* Class module *)
+let set_class key = set_data_path [|"class"; key|] Js.true_
+
+(* Style module *)
+let set_style style_attr (value:string) = set_data_path [|"style"; style_attr|] value
+let set_style_delayed style_attr (value:string) = set_data_path [|"style"; "delayed"; style_attr|] value
+let set_style_remove style_attr (value:string) = set_data_path [|"style"; "remove"; style_attr|] value
+
+(* Hook module *)
+let set_hook key cb =
+    set_data_path [|"hook"; key|] cb
+let set_hook0 key (cb: unit -> unit) = set_hook key cb
+let set_hook1 key (cb: Ex.VNode.t -> unit) = set_hook key cb
+let set_hook2 key (cb: Ex.VNode.t -> Ex.VNode.t -> unit) = set_hook key cb
+
+(* Eventlistener module *)
+let set_event_listener key cb =
+    set_data_path [|"on"; key|] cb
+
+external module_eventlisteners : Ex.snabbdom_module = "default" [@@bs.module "snabbdom/modules/eventlisteners"]
+external module_style : Ex.snabbdom_module = "default" [@@bs.module "snabbdom/modules/style"]
+external module_class : Ex.snabbdom_module = "default" [@@bs.module "snabbdom/modules/class"]
+external module_attributes : Ex.snabbdom_module = "default" [@@bs.module "snabbdom/modules/attributes"]

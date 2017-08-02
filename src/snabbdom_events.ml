@@ -1,22 +1,14 @@
+open Snabbdom_base
+open Snabbdom_external.Dom
 
-external stop_propagation : 'a Dom.event_like -> unit = "stopPropagation" [@@bs.send]
-external prevent_default : 'a Dom.event_like -> unit = "preventDefault" [@@bs.send]
-external get_target : 'a Dom.event_like -> 'a Dom.eventTarget_like = "target" [@@bs.get]
-
-external get_value :'a Dom.eventTarget_like -> string = "value" [@@bs.get]
-external is_checked : 'a Dom.eventTarget_like -> bool = "checked" [@@bs.get]
-
-external set_timeout : (unit -> unit) -> int -> int = "setTimeout" [@@bs.val]
 let next_tick cb =
     let _ = set_timeout cb 0 in
     ()
 
-(* let on event handler = Snabbdom.EventHandler (event, handler) *)
+type 'a event_cb = ('a -> unit)
+let mouse event (cb:Dom.mouseEvent event_cb) = set_event_listener event cb
 
-module S = Snabbdom_props
-let mouse event cb = S.EventListener (event, S.EventMouse cb)
-
-let event event_name cb = S.EventListener (event_name, S.Event cb)
+let event event (cb:Dom.event event_cb) = set_event_listener event cb
 let change = event "change"
 
 let click = mouse "click"
@@ -24,12 +16,12 @@ let mousedown = mouse "mousedown"
 let mouseup = mouse "mouseup"
 let mousemove = mouse "mousemove"
 
-let key event cb = S.EventListener (event, S.EventKeyboard cb)
-let keydown = key "keydown"
-let keyup = key "keyup"
-let keypress = key "keypress"
+let keyboard event (cb:Dom.keyboardEvent event_cb) = set_event_listener event cb
+let keydown = keyboard "keydown"
+let keyup = keyboard "keyup"
+let keypress = keyboard "keypress"
 
-let drag event cb = S.EventListener (event, S.EventDrag cb)
+let drag event (cb:Dom.dragEvent event_cb) = set_event_listener event cb
 let dragenter = drag "dragenter"
 let dragover = drag "dragover"
 let dragleave = drag "dragleave"

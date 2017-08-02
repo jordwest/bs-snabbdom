@@ -28,10 +28,14 @@ val module_attributes : submodule
     *)
 type patchfn = Snabbdom_external.vnode -> Snabbdom_external.vnode -> unit
 
+type data
+type node_params = ( data * Snabbdom_external.vnode array * string option )
+type node_params_transformer = node_params -> node_params
+
 (** The recommended function for creating Snabbdom vnodes.
     {{:https://github.com/snabbdom/snabbdom#snabbdomh} Snabbdom documentation}
     *)
-val h : string -> Snabbdom_props.node_info list -> Snabbdom_external.vnode
+val h : string -> node_params_transformer list -> Snabbdom_external.vnode
 
 (** Create a new Snabbdom patch function from an array of modules
     *)
