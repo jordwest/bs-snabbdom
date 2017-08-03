@@ -53,5 +53,5 @@ The first parameter - the element selector (eg: `"ul.my-list"`) - remains the sa
 
 The second parameter takes a list of transformer functions. These transformers describe how to alter the `data`, `children` and `text` parameters before they're passed to Snabbdom's `h` function.
 
-This is because OCaml generally does not support multiple function signatures, so in bs-snabbdom we simplify by combining the `data`, `children` and `text` parameters into a single array that describes how to construct them.
+This is because OCaml generally does not support multiple function signatures, so in bs-snabbdom we simplify by combining the `data`, `children` and `text` parameters into a single list that describes how to construct them.
 
