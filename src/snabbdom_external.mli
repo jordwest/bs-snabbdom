@@ -11,13 +11,46 @@
     *)
 type snabbdom_module
 
+(** The Data module provides functions for interacting with the data object passed to snabbdom's h function. *)
 module Data : sig
+
+    (** Represents a Snabbdom data object.
+
+    Essentially this is just a standard JavaScript object. For example:
+
+    {[{
+    style: {
+        color: '#000',
+        'font-weight': 'bold'
+    },
+    on: {
+        click: function(e) { e.preventDefault() }
+    }
+}]}
+    *)
     type t
+
+    (** Return a new, empty Snabbdom data object. This is equivalent to JavaScript [{}]*)
     val empty : unit -> t
+
+    (** Sets an object property somewhere in the data object.
+
+        Pass an array of strings representing the path to the property to be set, followed
+        by the property value. Intermediate objects will be created if they don't already exist.
+        
+        For example, to add a property like the following (in JavaScript):
+        {[{ style: { color: '#000' } }]}
+
+        Use:
+        {[let data = set_in_path data \[|"style"; "color"|\] "#000"]}
+    *)
     val set_in_path : t -> string array -> 'a -> t
 end
 
+(** The VNode module provides types and functions for interacting with native Snabbdom vdom nodes *)
 module VNode : sig
+
+    (** Represents a Snabbdom vnode *)
     type t
 
     val get_elm : t -> Dom.element
@@ -38,14 +71,18 @@ type patchfn = VNode.t -> VNode.t -> unit
 
 (** Snabbdom's `h` function for building a vnode from a set of data.
 
-    Generally, you'll want to use {!val:Snabbdom_base.h} instead.
+    Generally, you'll want to use {!val:Snabbdom_base.h} instead, as it
+    provides a more OCaml friendly type-safe means of building Snabbdom nodes.
 
     This function is only used when the node contains child vnodes or is empty.
     Use {!val:h_text} if the contents of the vnode is only text.
 *)
 val h : string -> Data.t -> VNode.t array -> VNode.t
 
-(** Snabbdom's `h` function, but used when the vnode content is only text instead of other vnodes. *)
+(** Snabbdom's `h` function, but used when the vnode content is only text instead
+    of other vnodes.
+    
+    As above, you'll generally want to use {!val:Snabbdom_base.h} instead*)
 val h_text : string -> Data.t -> string -> VNode.t
 
 (** Create a Snabbdom patch function from an array of snabbdom modules. *)
