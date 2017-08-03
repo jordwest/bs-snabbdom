@@ -1,10 +1,17 @@
 
 body {
     font-family: sans-serif;
+    padding-top: 50px;
 }
 
 div.navbar {
-    margin: 20px 0;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
 }
 
 @keyframes highlight {
@@ -32,7 +39,8 @@ pre {
     padding: 10px;
     background-color: #eee;
     margin: 0;
-    overflow-x: scroll;
+    overflow-x: auto;
+    border-left: 10px solid #ccc;
 }
 
 div.info {
@@ -46,9 +54,21 @@ div.info {
     padding-left: 10px;
 
     margin-right: 0;
-    border-left: 20px solid #ccc;
     background-color: #eee;
+
+    border-left: 10px solid transparent;
+
+    /* font-weight: bold; */
 }
+
+div.info p {
+    font-size: smaller;
+    color: #444;
+}
+
+/* div.info pre.codepre {
+     background-color: #ddd; 
+} */
 
 td {
     margin: 0;
