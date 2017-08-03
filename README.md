@@ -1,13 +1,13 @@
 Bucklescript + Snabbdom
 =======================
 
-These are *experimental and incomplete* bindings to Snabbdom for Bucklescript.
+These are *experimental and incomplete* bindings to [Snabbdom](https://github.com/snabbdom/snabbdom) for [Bucklescript](https://github.com/OvermindDL1/bucklescript-tea).
 
 [API Documentation](https://jordwest.github.io/bs-snabbdom/)
 
 ## Why 
 
-Snabbdom is a small, fast, functional and extensible virtual DOM library that meshes really well with OCaml. Using something like Snabbdom in OCaml can bring you the best parts of languages like Elm, without a complete architectural overhaul.
+[Snabbdom](https://github.com/snabbdom/snabbdom) is a small, fast, functional and extensible virtual DOM library that meshes really well with OCaml. Using something like Snabbdom in OCaml can bring you the best parts of languages like Elm plus a tiny bundle size, without a complete architectural overhaul.
 
 If you're already working on a Snabbdom project in JavaScript, you can use these bindings to introduce OCaml for safer types and less runtime errors. Snabbdom components are just functions which return vnodes, so they're totally interchangeable between JavaScript and Bucklescript.
 
@@ -46,7 +46,7 @@ let vnode = h "ul.my-list" [style "list-style" "none"; children [
 The main difference when compared to JavaScript is that the `h` function here always takes two arguments:
 
 ```ocaml
-h : string -> transformer list -> vnode
+h : string -> node_params_transformer list -> vnode
 ```
 
 The first parameter - the element selector (eg: `"ul.my-list"`) - remains the same.
