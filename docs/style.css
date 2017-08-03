@@ -7,6 +7,17 @@ div.navbar {
     margin: 20px 0;
 }
 
+@keyframes highlight {
+    0% { transform: scale(1.0); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1.0); }
+}
+span:target {
+    display: inline-block;
+    animation: highlight linear 0.3s;
+    background-color: #ff0;
+}
+
 div.navbar a {
     background-color: #eee;
     padding: 5px 15px;
