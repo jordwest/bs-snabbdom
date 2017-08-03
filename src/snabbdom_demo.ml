@@ -15,15 +15,12 @@ type action =
     | SetText of string
     | AddItem
     | Delete of string
-    | DragStart
-    | DragEnd
     | ToggleShow of bool
 
 type state = {
     count: int;
     name: string;
     items: string list;
-    dragging: bool;
     show_items: bool;
 }
 
@@ -89,20 +86,25 @@ let view store =
 
     h "div" [
         children [
-            h "h1" [text ("Hello " ^ string_of_int state.count)];
-            h "p" [text ("This is some paragraph text. " ^ state.name)];
-            h "input" [
-                keydown onChange;
-                prop "placeholder" "Some placeholder text";
-                prop "value" state.name;
-            ];
-            h "button" [ click (cb AddItem); text "Add" ];
+            h "h1" [text ("Count: " ^ string_of_int state.count)];
             h "button" [ click (cb Increment); text "+" ];
             h "button" [ click (cb Decrement); text "-" ];
-            checkbox state.show_items onCheck "This is some label";
+            h "p" [text ("bs-snabbdom demo. " ^ state.name)];
+            h "div" [children [
+                h "input" [
+                    keydown onChange;
+                    prop "placeholder" "Type something, click Add";
+                    prop "value" state.name;
+                ];
+                h "button" [ click (cb AddItem); text "Add" ];
+            ]];
+            checkbox state.show_items onCheck "Show item list";
         ];
         if state.show_items then
             children [ h "table" [
+                children [h "tr" [children [
+                    h "td" [text "Mouse over to delete"]
+                ]]];
                 prop "border" "1";
                 children (List.map (item store) state.items)
             ] ]
@@ -131,8 +133,6 @@ let reducer state action =
         | Delete s ->
             let no_name_match item = not (item == s) in
             { state with items = List.filter no_name_match state.items }
-        | DragStart -> { state with dragging = true }
-        | DragEnd -> { state with dragging = false }
         | ToggleShow show -> { state with show_items = show }
 
 let logging_middleware store next action =
@@ -153,7 +153,6 @@ let main () =
         count = 0;
         name = "";
         items = many_items [] 0 500;
-        dragging = false;
         show_items = false;
     } reducer logging_middleware in
     Store.on_change store (render view);
