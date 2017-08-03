@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Snabbdom_external.Data.html">
+<link rel="next" href="Snabbdom_external.Dom.html">
+<link rel="Up" href="Snabbdom_external.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Snabbdom_base" rel="Chapter" href="Snabbdom_base.html">
+<link title="Snabbdom_external" rel="Chapter" href="Snabbdom_external.html"><title>Snabbdom_external.VNode</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Snabbdom_external.Data.html" title="Snabbdom_external.Data">Previous</a>
+&nbsp;<a class="up" href="Snabbdom_external.html" title="Snabbdom_external">Up</a>
+&nbsp;<a class="post" href="Snabbdom_external.Dom.html" title="Snabbdom_external.Dom">Next</a>
+</div>
+<h1>Module <a href="type_Snabbdom_external.VNode.html">Snabbdom_external.VNode</a></h1>
+
+<pre><span class="keyword">module</span> VNode: <code class="code">sig</code> <a href="Snabbdom_external.VNode.html">..</a> <code class="code">end</code></pre><div class="info module top">
+The VNode module provides types and functions for interacting with native Snabbdom vdom nodes<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+Represents a Snabbdom vnode<br>
+</div>
+
+
+<pre><span id="VALget_elm"><span class="keyword">val</span> get_elm</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> Dom.element</code></pre>
+<pre><span id="VALof_dom_element"><span class="keyword">val</span> of_dom_element</span> : <code class="type">Dom.element -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre><div class="info ">
+Compile-time conversion of DOM elements to a Snabbdom vnode.
+<p>
+
+        This function doesn't actually do anything at runtime.
+        Since the Snabbdom patch function allows us to use
+        an existing DOM element as an 'old' vnode, this function
+        just explicitly tells the compiler that we know what we're
+        doing.<br>
+</div>
+</body></html>

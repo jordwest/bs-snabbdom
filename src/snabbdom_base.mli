@@ -57,7 +57,7 @@ val text : string -> node_params_transformer
     same key when reordering the list. *)
 val key : string -> node_params_transformer
 
-(** This does nothing. Can be useful for if statements:
+(** Don't transform the {!type:node_params}. Can be useful for if statements:
 
     {[if is_active then style "is-active" else nothing]}
 *)

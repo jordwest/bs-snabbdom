@@ -4,4 +4,3 @@ lib/bs
 dist/main.bundle.js
 lib/ocaml
 .DS_Store
-docs/*.html

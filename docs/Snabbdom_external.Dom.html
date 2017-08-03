@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Snabbdom_external.VNode.html">
+<link rel="Up" href="Snabbdom_external.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Snabbdom_base" rel="Chapter" href="Snabbdom_base.html">
+<link title="Snabbdom_external" rel="Chapter" href="Snabbdom_external.html"><title>Snabbdom_external.Dom</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Snabbdom_external.VNode.html" title="Snabbdom_external.VNode">Previous</a>
+&nbsp;<a class="up" href="Snabbdom_external.html" title="Snabbdom_external">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Snabbdom_external.Dom.html">Snabbdom_external.Dom</a></h1>
+
+<pre><span class="keyword">module</span> Dom: <code class="code">sig</code> <a href="Snabbdom_external.Dom.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="VALfocus"><span class="keyword">val</span> focus</span> : <code class="type">Dom.element -> unit</code></pre>
+<pre><span id="VALdocument"><span class="keyword">val</span> document</span> : <code class="type">Dom.document</code></pre>
+<pre><span id="VALget_element_by_id"><span class="keyword">val</span> get_element_by_id</span> : <code class="type">Dom.document -> string -> Dom.element option</code></pre>
+<pre><span id="VALstop_propagation"><span class="keyword">val</span> stop_propagation</span> : <code class="type">'a Dom.event_like -> unit</code></pre>
+<pre><span id="VALprevent_default"><span class="keyword">val</span> prevent_default</span> : <code class="type">'a Dom.event_like -> unit</code></pre>
+<pre><span id="VALget_target"><span class="keyword">val</span> get_target</span> : <code class="type">'a Dom.event_like -> 'a Dom.eventTarget_like</code></pre>
+<pre><span id="VALget_value"><span class="keyword">val</span> get_value</span> : <code class="type">'a Dom.eventTarget_like -> string</code></pre>
+<pre><span id="VALis_checked"><span class="keyword">val</span> is_checked</span> : <code class="type">'a Dom.eventTarget_like -> bool</code></pre>
+<pre><span id="VALset_timeout"><span class="keyword">val</span> set_timeout</span> : <code class="type">(unit -> unit) -> int -> int</code></pre></body></html>
