@@ -1,7 +1,7 @@
 Bucklescript + Snabbdom
 =======================
 
-These are *experimental and incomplete* bindings to [Snabbdom](https://github.com/snabbdom/snabbdom) for [Bucklescript](https://github.com/OvermindDL1/bucklescript-tea).
+These are *experimental and incomplete* bindings to [Snabbdom](https://github.com/snabbdom/snabbdom) for [Bucklescript](http://bucklescript.github.io/bucklescript/).
 
 [API Documentation](https://jordwest.github.io/bs-snabbdom/)
 
