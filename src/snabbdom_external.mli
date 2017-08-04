@@ -53,8 +53,19 @@ module VNode : sig
     (** Represents a Snabbdom vnode *)
     type t
 
-    val get_elm : t -> Dom.element
+    val empty : unit -> t
+    val set_sel : t -> string -> unit
+    val set_data : t -> Data.t -> unit
+    val set_children : t -> t array -> unit
+    val set_text : t -> string -> unit
+    val set_key : t -> string -> unit
+    val clear_text : t -> unit
 
+    val get_children : t -> t array option
+    val get_elm : t -> Dom.element option
+    val get_text : t -> string option
+
+    val set_in_path : t -> string array -> 'a -> t
     (** Compile-time conversion of DOM elements to a Snabbdom vnode.
 
         This function doesn't actually do anything at runtime.
@@ -69,22 +80,6 @@ end
 (** A Snabbdom patch function (returned by `init`) which takes an old DOM element or vnode and patches it to match a new vnode *)
 type patchfn = VNode.t -> VNode.t -> unit
 
-(** Snabbdom's `h` function for building a vnode from a set of data.
-
-    Generally, you'll want to use {!val:Snabbdom_base.h} instead, as it
-    provides a more OCaml friendly type-safe means of building Snabbdom nodes.
-
-    This function is only used when the node contains child vnodes or is empty.
-    Use {!val:h_text} if the contents of the vnode is only text.
-*)
-val h : string -> Data.t -> VNode.t array -> VNode.t
-
-(** Snabbdom's `h` function, but used when the vnode content is only text instead
-    of other vnodes.
-    
-    As above, you'll generally want to use {!val:Snabbdom_base.h} instead*)
-val h_text : string -> Data.t -> string -> VNode.t
-
 (** Create a Snabbdom patch function from an array of snabbdom modules. *)
 val init : snabbdom_module array -> patchfn
 
@@ -96,6 +91,7 @@ module Dom : sig
     val prevent_default : 'a Dom.event_like -> unit
     val get_target : 'a Dom.event_like -> 'a Dom.eventTarget_like
     val get_value : 'a Dom.eventTarget_like -> string
+    val get_event_key : Dom.keyboardEvent -> string
     val is_checked : 'a Dom.eventTarget_like -> bool
     val set_timeout : (unit -> unit) -> int -> int
 end

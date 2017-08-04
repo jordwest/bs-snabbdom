@@ -3,32 +3,84 @@
 module Ex = Snabbdom_external
 
 exception Not_supported
-exception Children_not_allowed_with_text
 
-let empty_node_params () = (Ex.Data.empty (), [], None)
-
-type node_params = ( Ex.Data.t * Ex.VNode.t list * string option )
-type node_params_transformer = node_params -> node_params
-let h selector (transformers: node_params_transformer list) =
-    let transform (node_params:node_params) (transformer:node_params_transformer) =
-        transformer node_params in
-    let snabb_props = List.fold_left transform (empty_node_params ()) transformers in
-    match snabb_props with
-        | (data, children, None) -> Ex.h selector data (Array.of_list children)
-        | (data, [], Some t) -> Ex.h_text selector data t
-        | (_, _, Some _) -> raise Children_not_allowed_with_text
+type vnode = Ex.VNode.t
 
 (* ==== Transformers ====  *)
 (* General *)
-let set_data_path path value ((data, children, text):node_params) : node_params =
-    (Ex.Data.set_in_path data path value, children, text)
+let set_data_path path value vnode : vnode =
+    Ex.VNode.set_in_path vnode (Array.append [|"data"|] path) value
 
-let children (new_children:Ex.VNode.t list) ((data, children, text):node_params) : node_params =
-    (data, children @ new_children, text)
-let text new_text ((data, children, _):node_params) : node_params =
-    (data, children, Some new_text)
-let key (key:string) = set_data_path [|"key"|] key
-let nothing (a:node_params) = a 
+let namespace = set_data_path [|"ns"|]
+
+type vnode_transformer = vnode -> vnode
+
+let rec recursively_set_namespace ns (vnode : vnode) : vnode =
+    let vnode = namespace ns vnode in
+    let _ = (match Ex.VNode.get_children vnode with
+        | Some children -> Array.map (recursively_set_namespace ns) children
+        | None -> [||]
+    ) in
+    vnode
+
+let h selector (transformers: vnode_transformer list) =
+    (* Start with a blank vnode *)
+    let vnode = Ex.VNode.empty () in
+    Ex.VNode.set_data vnode (Ex.Data.empty ());
+    Ex.VNode.set_sel vnode selector;
+
+    (* Now run through all the transformers provided to set up the vnode *)
+    let transform (vnode:vnode) (transformer:vnode_transformer) =
+        transformer vnode in
+    let vnode = List.fold_left transform vnode transformers in
+
+    (* Need to know if the node is an SVG so we can add the XML namespace *)
+    let is_svg = (match String.length selector with
+        | len when len == 3 -> selector == "svg"
+        | len when len >= 4 -> (match String.sub selector 0 4 with
+            | "svg#" -> true
+            | "svg." -> true
+            | _ -> false
+        )
+        | _ -> false
+    ) in
+    if is_svg then
+        recursively_set_namespace "http://www.w3.org/2000/svg" vnode
+    else
+        vnode
+
+let text_vnode t =
+    let node = Ex.VNode.empty () in
+    Ex.VNode.set_text node t;
+    node
+
+let children (new_children:vnode list) vnode : vnode =
+    (match (Ex.VNode.get_children vnode, Ex.VNode.get_text vnode) with
+        | (None, Some t) ->
+            Ex.VNode.clear_text vnode;
+            Ex.VNode.set_children vnode (Array.of_list ([text_vnode t] @ new_children));
+        | (Some children, None) ->
+            Ex.VNode.set_children vnode (Array.append children (Array.of_list new_children));
+        | (None, None) ->
+            Ex.VNode.set_children vnode (Array.of_list new_children);
+        | _ -> raise Not_supported
+    );
+    vnode
+
+ let text new_text vnode : vnode =
+    (match (Ex.VNode.get_children vnode) with
+        | Some children ->
+            Ex.VNode.set_children vnode (Array.append children [|text_vnode new_text|]);
+        | None ->
+            Ex.VNode.set_text vnode new_text;
+    );
+    vnode
+
+let key (key:string) vnode =
+    Ex.VNode.set_key vnode key;
+    vnode
+
+let nothing (a:vnode) = a 
 
 (* Attribute module *)
 external module_attributes : Ex.snabbdom_module = "default" [@@bs.module "snabbdom/modules/attributes"]

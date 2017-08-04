@@ -5,7 +5,7 @@ These are *experimental and incomplete* bindings to [Snabbdom](https://github.co
 
 [API Documentation](https://jordwest.github.io/bs-snabbdom/)
 
-## Why 
+## Why
 
 [Snabbdom](https://github.com/snabbdom/snabbdom) is a small, fast, functional and extensible virtual DOM library that meshes really well with OCaml. Using something like Snabbdom in OCaml can bring you the best parts of languages like Elm plus a tiny bundle size, without a complete architectural overhaul.
 
@@ -46,12 +46,9 @@ let vnode = h "ul.my-list" [style "list-style" "none"; children [
 The main difference when compared to JavaScript is that the `h` function here always takes two arguments:
 
 ```ocaml
-h : string -> node_params_transformer list -> vnode
+h : string -> vnode_transformer list -> vnode
 ```
 
 The first parameter - the element selector (eg: `"ul.my-list"`) - remains the same.
 
-The second parameter takes a list of transformer functions. These transformers describe how to alter the `data`, `children` and `text` parameters before they're passed to Snabbdom's `h` function.
-
-This is because OCaml generally does not support multiple function signatures, so in bs-snabbdom we simplify by combining the `data`, `children` and `text` parameters into a single list that describes how to construct them.
-
+The second parameter takes a list of transformer functions. These transformers describe how to alter the vnode - whether that's setting a property on the `data` object, adding children, or setting the node's text.

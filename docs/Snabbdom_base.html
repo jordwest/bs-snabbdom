@@ -29,47 +29,27 @@ Main snabbdom functions<br>
 This snabbdom function is not supported<br>
 </div>
 
-<pre><span id="EXCEPTIONChildren_not_allowed_with_text"><span class="keyword">exception</span> Children_not_allowed_with_text</span></pre>
+<pre><span id="TYPEvnode_transformer"><span class="keyword">type</span> <code class="type"></code>vnode_transformer</span> = <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">Snabbdom_external.VNode.t</a> -> <a href="Snabbdom_external.VNode.html#TYPEt">Snabbdom_external.VNode.t</a></code> </pre>
 <div class="info ">
-A node cannot have both text and child nodes<br>
-</div>
-
-<pre><span id="TYPEnode_params"><span class="keyword">type</span> <code class="type"></code>node_params</span> = <code class="type"><a href="Snabbdom_external.Data.html#TYPEt">Snabbdom_external.Data.t</a> * <a href="Snabbdom_external.VNode.html#TYPEt">Snabbdom_external.VNode.t</a> list * string option</code> </pre>
-<div class="info ">
-node_params are the parameters Snabbdom uses to generate a vnode.
-    We pass them around in a tuple here, with the following elements:
-<p>
-
-        1. Snabbdom data. This is the actual data object passed to Snabbdom's
-            actual `h` function.
-        2.<br>
+A vnode_transformer is any function which modifies a Snabbdom vnode.<br>
 </div>
 
 
-<pre><span id="TYPEnode_params_transformer"><span class="keyword">type</span> <code class="type"></code>node_params_transformer</span> = <code class="type"><a href="Snabbdom_base.html#TYPEnode_params">node_params</a> -> <a href="Snabbdom_base.html#TYPEnode_params">node_params</a></code> </pre>
-<div class="info ">
-A node_params_transformer is any function which modifies
-    the parameters Snabbdom uses to generate a vnode.<br>
-</div>
-
-
-<pre><span id="VALh"><span class="keyword">val</span> h</span> : <code class="type">string -><br>       <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a> list -> <a href="Snabbdom_external.VNode.html#TYPEt">Snabbdom_external.VNode.t</a></code></pre><div class="info ">
+<pre><span id="VALh"><span class="keyword">val</span> h</span> : <code class="type">string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a> list -> <a href="Snabbdom_external.VNode.html#TYPEt">Snabbdom_external.VNode.t</a></code></pre><div class="info ">
 The recommended function for creating Snabbdom vnodes. Note this function
     doesn't work exactly like <a href="https://github.com/snabbdom/snabbdom#snabbdomh"> Snabbdom's `h` function</a>
 <p>
 
     Since we're working in a different language, bs-snabbdom provides a slightly different
-    h function for constructing the vnodes that better works with OCaml. Underneath, we
-    still use the `h` function to create the vnodes. <em>Note: If you really need it, the
-    lower level binding is also defined in <a href="Snabbdom_external.html#VALh"><code class="code">Snabbdom_external.h</code></a>.</em>
+    h function for constructing the vnodes that better works with OCaml.
 <p>
 
     The first parameter is the same as Snabbdom's - an html selector describing the element
     type and any classes/id to apply to the element.
 <p>
 
-    The second parameter takes a list of <a href="Snabbdom_base.html#TYPEnode_params_transformer"><code class="code">Snabbdom_base.node_params_transformer</code></a> functions, which
-    specify how to set up the node. Some transformers are implemented in this
+    The second parameter takes a list of <a href="Snabbdom_base.html#TYPEvnode_transformer"><code class="code">Snabbdom_base.vnode_transformer</code></a> functions, which
+    specify how to create the vnode. Some transformers are implemented in this
     module below.
 <p>
 
@@ -80,34 +60,37 @@ The recommended function for creating Snabbdom vnodes. Note this function
 ]</code></pre><br>
 </div>
 
-<pre><span id="VALset_data_path"><span class="keyword">val</span> set_data_path</span> : <code class="type">string array -> 'a -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre>
-<pre><span id="VALchildren"><span class="keyword">val</span> children</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">Snabbdom_external.VNode.t</a> list -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre><div class="info ">
+<pre><span id="VALset_data_path"><span class="keyword">val</span> set_data_path</span> : <code class="type">string array -> 'a -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre><div class="info ">
+A convenience transformer for setting a path in the `data` element of the vnode.<br>
+</div>
+
+<pre><span id="VALchildren"><span class="keyword">val</span> children</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">Snabbdom_external.VNode.t</a> list -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre><div class="info ">
 Add child vnodes<br>
 </div>
 
-<pre><span id="VALtext"><span class="keyword">val</span> text</span> : <code class="type">string -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre><div class="info ">
-Sets the text in the body of the node<br>
+<pre><span id="VALtext"><span class="keyword">val</span> text</span> : <code class="type">string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre><div class="info ">
+Adds text to the body of the node<br>
 </div>
 
-<pre><span id="VALkey"><span class="keyword">val</span> key</span> : <code class="type">string -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre><div class="info ">
+<pre><span id="VALkey"><span class="keyword">val</span> key</span> : <code class="type">string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre><div class="info ">
 Sets the Snabbdom key for this node. Use this on
     lists of items to help Snabbdom reconcile the old
     and new nodes and reuse nodes that belong to the
     same key when reordering the list.<br>
 </div>
 
-<pre><span id="VALnothing"><span class="keyword">val</span> nothing</span> : <code class="type"><a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre><div class="info ">
-Don't transform the <a href="Snabbdom_base.html#TYPEnode_params"><code class="code">Snabbdom_base.node_params</code></a>. Can be useful for if statements:
+<pre><span id="VALnothing"><span class="keyword">val</span> nothing</span> : <code class="type"><a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre><div class="info ">
+Don't transform the <a href="Snabbdom_external.VNode.html#TYPEt"><code class="code">Snabbdom_external.VNode.t</code></a>. Can be useful for if statements:
 <p>
 
     <pre class="codepre"><code class="code">if is_active then style "is-active" else nothing</code></pre><br>
 </div>
 
 <pre><span id="VALmodule_attributes"><span class="keyword">val</span> module_attributes</span> : <code class="type"><a href="Snabbdom_external.html#TYPEsnabbdom_module">Snabbdom_external.snabbdom_module</a></code></pre>
-<pre><span id="VALattr"><span class="keyword">val</span> attr</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre>
+<pre><span id="VALattr"><span class="keyword">val</span> attr</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre>
 <pre><span id="VALmodule_class"><span class="keyword">val</span> module_class</span> : <code class="type"><a href="Snabbdom_external.html#TYPEsnabbdom_module">Snabbdom_external.snabbdom_module</a></code></pre>
-<pre><span id="VALclass_name"><span class="keyword">val</span> class_name</span> : <code class="type">string -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre>
+<pre><span id="VALclass_name"><span class="keyword">val</span> class_name</span> : <code class="type">string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre>
 <pre><span id="VALmodule_style"><span class="keyword">val</span> module_style</span> : <code class="type"><a href="Snabbdom_external.html#TYPEsnabbdom_module">Snabbdom_external.snabbdom_module</a></code></pre>
-<pre><span id="VALstyle"><span class="keyword">val</span> style</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre>
-<pre><span id="VALstyle_delayed"><span class="keyword">val</span> style_delayed</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre>
-<pre><span id="VALstyle_remove"><span class="keyword">val</span> style_remove</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEnode_params_transformer">node_params_transformer</a></code></pre></body></html>
+<pre><span id="VALstyle"><span class="keyword">val</span> style</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre>
+<pre><span id="VALstyle_delayed"><span class="keyword">val</span> style_delayed</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre>
+<pre><span id="VALstyle_remove"><span class="keyword">val</span> style_remove</span> : <code class="type">string -> string -> <a href="Snabbdom_base.html#TYPEvnode_transformer">vnode_transformer</a></code></pre></body></html>

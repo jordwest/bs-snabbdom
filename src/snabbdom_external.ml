@@ -1,6 +1,5 @@
 (* Contains the external Snabbdom bindings *)
 
-
 module Data = struct
     type t
 
@@ -35,17 +34,45 @@ module Data = struct
 end
 
 module VNode = struct
-    type t
+    type t = <
+        sel: string Js.undefined;
+        data: Data.t Js.undefined;
+        children: t array Js.undefined;
+        elm: Dom.element Js.undefined;
+        text: string Js.undefined;
+        key: string Js.undefined;
+    > Js.t
 
-    external get_elm : t -> Dom.element = "elm" [@@bs.get]
+    let empty () : t =
+        [%bs.obj {
+            sel = Js.undefined;
+            data = Js.undefined;
+            children = Js.undefined;
+            elm = Js.undefined;
+            text = Js.undefined;
+            key = Js.undefined;
+        }]
+
+    external unsafe_set_children : t -> 'a -> unit = "children" [@@bs.set]
+
+    external set_sel : t -> string -> unit = "sel" [@@bs.set]
+    external set_data : t -> Data.t -> unit = "data" [@@bs.set]
+    external set_children : t -> t array -> unit = "children" [@@bs.set]
+    external set_text : t -> string -> unit = "text" [@@bs.set]
+    external set_key : t -> string -> unit = "key" [@@bs.set]
+    let clear_text vnode = unsafe_set_children vnode Js.undefined;
+
+    external get_children : t -> t array option = "children" [@@bs.get] [@@bs.return null_undefined_to_opt]
+    external get_elm : t -> Dom.element option = "elm" [@@bs.get] [@@bs.return null_undefined_to_opt]
+    external get_text : t -> string option = "text" [@@bs.get] [@@bs.return null_undefined_to_opt]
     external of_dom_element : Dom.element -> t = "%identity"
+
+    external unsafe_set_in_path : t -> string array -> 'a -> t = "set_in_path" [@@bs.val] [@@bs.scope "bs_snabbdom"]
+    let set_in_path data path value = unsafe_set_in_path data path value
 end
 
 type patchfn = VNode.t -> VNode.t -> unit
 type snabbdom_module
-
-external h : string -> Data.t -> VNode.t array -> VNode.t = "h" [@@bs.module "snabbdom"]
-external h_text : string -> Data.t -> string -> VNode.t = "h" [@@bs.module "snabbdom"]
 
 external init : snabbdom_module array -> patchfn = "init" [@@bs.module "snabbdom"]
 
@@ -59,6 +86,8 @@ module Dom = struct
     external stop_propagation : 'a Dom.event_like -> unit = "stopPropagation" [@@bs.send]
     external prevent_default : 'a Dom.event_like -> unit = "preventDefault" [@@bs.send]
     external get_target : 'a Dom.event_like -> 'a Dom.eventTarget_like = "target" [@@bs.get]
+
+    external get_event_key : Dom.keyboardEvent -> string = "key" [@@bs.get]
 
     external get_value :'a Dom.eventTarget_like -> string = "value" [@@bs.get]
     external is_checked : 'a Dom.eventTarget_like -> bool = "checked" [@@bs.get]

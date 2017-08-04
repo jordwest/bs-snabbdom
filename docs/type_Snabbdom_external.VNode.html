@@ -12,6 +12,21 @@
 <body>
 <code class="code"><span class="keyword">sig</span><br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_elm&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Dom</span>.element<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_sel&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_data&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">Data</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_children&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_text&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_key&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;clear_text&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_children&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;array&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_elm&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Dom</span>.element&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_text&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_in_path&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_dom_element&nbsp;:&nbsp;<span class="constructor">Dom</span>.element&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t<br>
 <span class="keyword">end</span></code></body></html>

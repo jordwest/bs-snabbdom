@@ -5,6 +5,7 @@ module Store = Snabbdom.Simple_store
 
 let patch = Snabbdom_external.init [|
     module_props;
+    module_attributes;
     module_eventlisteners;
     module_style;
 |]
@@ -65,7 +66,7 @@ let item store s =
             ]]
     ]]
 
-let view store = 
+let view store =
     let state = Store.get_state store in
 
     let cb action ev =
@@ -89,7 +90,11 @@ let view store =
             h "h1" [text ("Count: " ^ string_of_int state.count)];
             h "button" [ click (cb Increment); text "+" ];
             h "button" [ click (cb Decrement); text "-" ];
-            h "p" [text ("bs-snabbdom demo. " ^ state.name)];
+            h "p" [
+                children [h "strong" [text "bs-snabbdom"]];
+                text " demo. ";
+                children [h "em" [text state.name]];
+            ];
             h "div" [children [
                 h "input" [
                     keydown onChange;
@@ -99,6 +104,9 @@ let view store =
                 h "button" [ click (cb AddItem); text "Add" ];
             ]];
             checkbox state.show_items onCheck "Show item list";
+            h "svg" [attr "width" "200"; attr "height" "200"; children [
+                h "circle" [attr "cx" "50"; attr "cy" "50"; attr "r" "30"; attr "fill" "#000"];
+            ]]
         ];
         if state.show_items then
             children [ h "table" [

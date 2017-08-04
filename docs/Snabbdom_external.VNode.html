@@ -32,8 +32,17 @@ Represents a Snabbdom vnode<br>
 </div>
 
 
-<pre><span id="VALget_elm"><span class="keyword">val</span> get_elm</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> Dom.element</code></pre>
-<pre><span id="VALof_dom_element"><span class="keyword">val</span> of_dom_element</span> : <code class="type">Dom.element -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre><div class="info ">
+<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type">unit -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre>
+<pre><span id="VALset_sel"><span class="keyword">val</span> set_sel</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALset_data"><span class="keyword">val</span> set_data</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> <a href="Snabbdom_external.Data.html#TYPEt">Snabbdom_external.Data.t</a> -> unit</code></pre>
+<pre><span id="VALset_children"><span class="keyword">val</span> set_children</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a> array -> unit</code></pre>
+<pre><span id="VALset_text"><span class="keyword">val</span> set_text</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALset_key"><span class="keyword">val</span> set_key</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALclear_text"><span class="keyword">val</span> clear_text</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALget_children"><span class="keyword">val</span> get_children</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a> array option</code></pre>
+<pre><span id="VALget_elm"><span class="keyword">val</span> get_elm</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> Dom.element option</code></pre>
+<pre><span id="VALget_text"><span class="keyword">val</span> get_text</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> string option</code></pre>
+<pre><span id="VALset_in_path"><span class="keyword">val</span> set_in_path</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> string array -> 'a -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre><div class="info ">
 Compile-time conversion of DOM elements to a Snabbdom vnode.
 <p>
 
@@ -43,4 +52,5 @@ Compile-time conversion of DOM elements to a Snabbdom vnode.
         just explicitly tells the compiler that we know what we're
         doing.<br>
 </div>
-</body></html>
+
+<pre><span id="VALof_dom_element"><span class="keyword">val</span> of_dom_element</span> : <code class="type">Dom.element -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre></body></html>

@@ -3,36 +3,20 @@
 (** This snabbdom function is not supported *)
 exception Not_supported
 
-(** A node cannot have both text and child nodes *)
-exception Children_not_allowed_with_text
-
-(** node_params are the parameters Snabbdom uses to generate a vnode.
-    We pass them around in a tuple here, with the following elements:
-    
-        1. Snabbdom data. This is the actual data object passed to Snabbdom's
-            actual `h` function.
-        2. 
-*)
-type node_params = ( Snabbdom_external.Data.t * Snabbdom_external.VNode.t list * string option )
-
-(** A node_params_transformer is any function which modifies
-    the parameters Snabbdom uses to generate a vnode.
- *)
-type node_params_transformer = node_params -> node_params
+(** A vnode_transformer is any function which modifies a Snabbdom vnode. *)
+type vnode_transformer = Snabbdom_external.VNode.t -> Snabbdom_external.VNode.t
 
 (** The recommended function for creating Snabbdom vnodes. Note this function
     doesn't work exactly like {{:https://github.com/snabbdom/snabbdom#snabbdomh} Snabbdom's `h` function}
 
     Since we're working in a different language, bs-snabbdom provides a slightly different
-    h function for constructing the vnodes that better works with OCaml. Underneath, we
-    still use the `h` function to create the vnodes. {e Note: If you really need it, the
-    lower level binding is also defined in {!val:Snabbdom_external.h}.}
+    h function for constructing the vnodes that better works with OCaml.
 
     The first parameter is the same as Snabbdom's - an html selector describing the element
     type and any classes/id to apply to the element.
 
-    The second parameter takes a list of {!type:node_params_transformer} functions, which
-    specify how to set up the node. Some transformers are implemented in this
+    The second parameter takes a list of {!type:vnode_transformer} functions, which
+    specify how to create the vnode. Some transformers are implemented in this
     module below.
 
     Usage example:
@@ -41,35 +25,36 @@ type node_params_transformer = node_params -> node_params
   text "Hello World!"
 \]]}
     *)
-val h : string -> node_params_transformer list -> Snabbdom_external.VNode.t
+val h : string -> vnode_transformer list -> Snabbdom_external.VNode.t
 
-val set_data_path : string array -> 'a -> node_params_transformer
+(** A convenience transformer for setting a path in the `data` element of the vnode. *)
+val set_data_path : string array -> 'a -> vnode_transformer
 
 (** Add child vnodes *)
-val children : Snabbdom_external.VNode.t list -> node_params_transformer
+val children : Snabbdom_external.VNode.t list -> vnode_transformer
 
-(** Sets the text in the body of the node *)
-val text : string -> node_params_transformer
+(** Adds text to the body of the node *)
+val text : string -> vnode_transformer
 
 (** Sets the Snabbdom key for this node. Use this on
     lists of items to help Snabbdom reconcile the old
     and new nodes and reuse nodes that belong to the
     same key when reordering the list. *)
-val key : string -> node_params_transformer
+val key : string -> vnode_transformer
 
-(** Don't transform the {!type:node_params}. Can be useful for if statements:
+(** Don't transform the {!type:Snabbdom_external.VNode.t}. Can be useful for if statements:
 
     {[if is_active then style "is-active" else nothing]}
 *)
-val nothing : node_params_transformer
+val nothing : vnode_transformer
 
 val module_attributes : Snabbdom_external.snabbdom_module
-val attr : string -> string -> node_params_transformer
+val attr : string -> string -> vnode_transformer
 
 val module_class : Snabbdom_external.snabbdom_module
-val class_name : string -> node_params_transformer
+val class_name : string -> vnode_transformer
 
 val module_style : Snabbdom_external.snabbdom_module
-val style : string -> string -> node_params_transformer
-val style_delayed : string -> string -> node_params_transformer
-val style_remove : string -> string -> node_params_transformer
+val style : string -> string -> vnode_transformer
+val style_delayed : string -> string -> vnode_transformer
+val style_remove : string -> string -> vnode_transformer

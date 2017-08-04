@@ -9,4 +9,7 @@ let hook2 key (cb: Ex.VNode.t -> Ex.VNode.t -> unit) = hook key cb
 
 let insert cb = hook1 "insert" cb
 
-let autofocus = insert (fun(n) -> Ex.Dom.focus (Ex.VNode.get_elm n); ());
+let autofocus = insert (fun(vnode) -> match Ex.VNode.get_elm vnode with
+    | Some elm -> Ex.Dom.focus elm;
+    | None -> ()
+);

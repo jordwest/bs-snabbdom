@@ -12,30 +12,23 @@
 <body>
 <code class="code"><span class="keyword">sig</span><br>
 &nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">Not_supported</span><br>
-&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">Children_not_allowed_with_text</span><br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;node_params&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">Data</span>.t&nbsp;*&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;list&nbsp;*<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;option<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;node_params_transformer&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_base</span>.node_params&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;vnode_transformer&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;h&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_data_path&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_data_path&nbsp;:&nbsp;string&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;children&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;text&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;key&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;nothing&nbsp;:&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">VNode</span>.t&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;text&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;key&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;nothing&nbsp;:&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;module_attributes&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.snabbdom_module<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;attr&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;attr&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;module_class&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.snabbdom_module<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;class_name&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;class_name&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;module_style&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.snabbdom_module<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;style&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;style_delayed&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;style_remove&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.node_params_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;style&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;style_delayed&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;style_remove&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_base</span>.vnode_transformer<br>
 <span class="keyword">end</span></code></body></html>

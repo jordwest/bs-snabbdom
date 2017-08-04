@@ -53,26 +53,6 @@ A Snabbdom patch function (returned by `init`) which takes an old DOM element or
 </div>
 
 
-<pre><span id="VALh"><span class="keyword">val</span> h</span> : <code class="type">string -><br>       <a href="Snabbdom_external.Data.html#TYPEt">Data.t</a> -><br>       <a href="Snabbdom_external.VNode.html#TYPEt">VNode.t</a> array -> <a href="Snabbdom_external.VNode.html#TYPEt">VNode.t</a></code></pre><div class="info ">
-Snabbdom's `h` function for building a vnode from a set of data.
-<p>
-
-    Generally, you'll want to use <a href="Snabbdom_base.html#VALh"><code class="code">Snabbdom_base.h</code></a> instead, as it
-    provides a more OCaml friendly type-safe means of building Snabbdom nodes.
-<p>
-
-    This function is only used when the node contains child vnodes or is empty.
-    Use <a href="Snabbdom_external.html#VALh_text"><code class="code">Snabbdom_external.h_text</code></a> if the contents of the vnode is only text.<br>
-</div>
-
-<pre><span id="VALh_text"><span class="keyword">val</span> h_text</span> : <code class="type">string -> <a href="Snabbdom_external.Data.html#TYPEt">Data.t</a> -> string -> <a href="Snabbdom_external.VNode.html#TYPEt">VNode.t</a></code></pre><div class="info ">
-Snabbdom's `h` function, but used when the vnode content is only text instead
-    of other vnodes.
-<p>
-
-    As above, you'll generally want to use <a href="Snabbdom_base.html#VALh"><code class="code">Snabbdom_base.h</code></a> instead<br>
-</div>
-
 <pre><span id="VALinit"><span class="keyword">val</span> init</span> : <code class="type"><a href="Snabbdom_external.html#TYPEsnabbdom_module">snabbdom_module</a> array -> <a href="Snabbdom_external.html#TYPEpatchfn">patchfn</a></code></pre><div class="info ">
 Create a Snabbdom patch function from an array of snabbdom modules.<br>
 </div>
