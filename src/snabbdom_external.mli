@@ -65,7 +65,19 @@ module VNode : sig
     val get_elm : t -> Dom.element option
     val get_text : t -> string option
 
+    (** Sets an object property somewhere in the vnode object.
+
+        Pass an array of strings representing the path to the property to be set, followed
+        by the property value. Intermediate objects will be created if they don't already exist.
+        
+        For example, to set the vnode's key property like the following (in JavaScript):
+        {[vnode.key = "xyz"]}
+
+        Use:
+        {[let vnode = set_in_path vnode \[|"key"|\] "xyz"]}
+    *)
     val set_in_path : t -> string array -> 'a -> t
+
     (** Compile-time conversion of DOM elements to a Snabbdom vnode.
 
         This function doesn't actually do anything at runtime.

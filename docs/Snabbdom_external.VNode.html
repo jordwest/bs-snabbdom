@@ -43,6 +43,22 @@ Represents a Snabbdom vnode<br>
 <pre><span id="VALget_elm"><span class="keyword">val</span> get_elm</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> Dom.element option</code></pre>
 <pre><span id="VALget_text"><span class="keyword">val</span> get_text</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> string option</code></pre>
 <pre><span id="VALset_in_path"><span class="keyword">val</span> set_in_path</span> : <code class="type"><a href="Snabbdom_external.VNode.html#TYPEt">t</a> -> string array -> 'a -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre><div class="info ">
+Sets an object property somewhere in the vnode object.
+<p>
+
+        Pass an array of strings representing the path to the property to be set, followed
+        by the property value. Intermediate objects will be created if they don't already exist.
+<p>
+
+        For example, to set the vnode's key property like the following (in JavaScript):
+        <pre class="codepre"><code class="code">vnode.key = "xyz"</code></pre>
+<p>
+
+        Use:
+        <pre class="codepre"><code class="code">let vnode = set_in_path vnode [|"key"|] "xyz"</code></pre><br>
+</div>
+
+<pre><span id="VALof_dom_element"><span class="keyword">val</span> of_dom_element</span> : <code class="type">Dom.element -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre><div class="info ">
 Compile-time conversion of DOM elements to a Snabbdom vnode.
 <p>
 
@@ -52,5 +68,4 @@ Compile-time conversion of DOM elements to a Snabbdom vnode.
         just explicitly tells the compiler that we know what we're
         doing.<br>
 </div>
-
-<pre><span id="VALof_dom_element"><span class="keyword">val</span> of_dom_element</span> : <code class="type">Dom.element -> <a href="Snabbdom_external.VNode.html#TYPEt">t</a></code></pre></body></html>
+</body></html>
