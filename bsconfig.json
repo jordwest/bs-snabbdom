@@ -1,7 +1,7 @@
 {
     "name": "bs-snabbdom",
     "bs-dependencies" : [],
-    "package-specs": ["es6"],
+    "package-specs": ["es6", "commonjs"],
     "sources": [
         {
             "dir": "src",
