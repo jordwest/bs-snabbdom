@@ -92,7 +92,7 @@ open Snabbdom.External
 (* Define a function that returns a new virtual dom node *)
 let view title =
   h "div" [
-    style "box-shadow" "0 0 5px 10px black";
+    style "box-shadow" "0px 0px 10px black";
     children [
       h "h1" [text ("Hello, " ^ title ^ "!")];
       h "ol" [children [
