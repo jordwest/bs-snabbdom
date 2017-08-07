@@ -52,3 +52,60 @@ h : string -> vnode_transformer list -> vnode
 The first parameter - the element selector (eg: `"ul.my-list"`) - remains the same.
 
 The second parameter takes a list of transformer functions. These transformers describe how to alter the vnode - whether that's setting a property on the `data` object, adding children, or setting the node's text.
+
+## Getting started
+
+### Install Bucklescript
+
+If you're starting from scratch, or adding bucklescript to an existing JavaScript project, you'll first need to install the Bucklescript compiler:
+
+```sh
+npm install bs-platform
+./node_modules/.bin/bsb -init .
+```
+
+See the [Bucklescript docs](http://bucklescript.github.io/bucklescript/) for more details.
+
+### Install `bs-snabbdom` and `snabbdom`
+
+1. Install with your package manager of choice:
+```sh
+npm install snabbdom bs-snabbdom
+```
+2. Let the Bucklescript compiler know about bs-snabbdom. Add the dependency to `bsconfig.json` in your project directory:
+
+```js
+{
+    /* ... */
+    "bs-dependencies" : ["bs-snabbdom"],
+    /* ... */
+}
+```
+
+### Write some code
+
+```ocaml
+
+open Snabbdom.Base
+open Snabbdom.External
+
+(* Define a function that returns a new virtual dom node *)
+let view title =
+  h "div" [
+    style "box-shadow" "0 0 5px 10px black";
+    children [
+      h "h1" [text ("Hello, " ^ title ^ "!")];
+      h "ol" [children [
+        h "li" [text "Item 1"];
+        h "li" [text "Item 2"];
+        h "li" [text "Item 3"];
+      ]]
+    ]
+  ]
+
+(* Create a patch function from an array of Snabbdom modules *)
+let patch = init [|module_style|]
+
+(* Patch a dom element with id "#app" to the new virtual dom node *)
+let () = patch (VNode.from_dom_id "app") (view "Snabbdom")
+```

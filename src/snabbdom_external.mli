@@ -11,6 +11,20 @@
     *)
 type snabbdom_module
 
+module Dom : sig
+    type element = Dom.element
+    val focus : element -> unit
+    val document : Dom.document
+    val get_element_by_id : Dom.document -> string -> element option
+    val stop_propagation : 'a Dom.event_like -> unit
+    val prevent_default : 'a Dom.event_like -> unit
+    val get_target : 'a Dom.event_like -> 'a Dom.eventTarget_like
+    val get_value : 'a Dom.eventTarget_like -> string
+    val get_event_key : Dom.keyboardEvent -> string
+    val is_checked : 'a Dom.eventTarget_like -> bool
+    val set_timeout : (unit -> unit) -> int -> int
+end
+
 (** The Data module provides functions for interacting with the data object passed to snabbdom's h function. *)
 module Data : sig
 
@@ -78,6 +92,17 @@ module VNode : sig
     *)
     val set_in_path : t -> string array -> 'a -> t
 
+
+    (** Exception raised when {!val:from_dom_id} is called with an
+        element id that does not exist. *)
+    exception Element_with_id_not_found of string
+
+    (** Create a VNode from an element in the DOM with the specified id.
+    
+        This function may raise an {!exception:Element_with_id_not_found} exception.
+    *)
+    val from_dom_id : string -> t
+
     (** Compile-time conversion of DOM elements to a Snabbdom vnode.
 
         This function doesn't actually do anything at runtime.
@@ -94,16 +119,3 @@ type patchfn = VNode.t -> VNode.t -> unit
 
 (** Create a Snabbdom patch function from an array of snabbdom modules. *)
 val init : snabbdom_module array -> patchfn
-
-module Dom : sig
-    val focus : Dom.element -> unit
-    val document : Dom.document
-    val get_element_by_id : Dom.document -> string -> Dom.element option
-    val stop_propagation : 'a Dom.event_like -> unit
-    val prevent_default : 'a Dom.event_like -> unit
-    val get_target : 'a Dom.event_like -> 'a Dom.eventTarget_like
-    val get_value : 'a Dom.eventTarget_like -> string
-    val get_event_key : Dom.keyboardEvent -> string
-    val is_checked : 'a Dom.eventTarget_like -> bool
-    val set_timeout : (unit -> unit) -> int -> int
-end

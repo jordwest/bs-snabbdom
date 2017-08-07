@@ -11,9 +11,11 @@
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;focus&nbsp;:&nbsp;<span class="constructor">Dom</span>.element&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;element&nbsp;=&nbsp;<span class="constructor">Dom</span>.element<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;focus&nbsp;:&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">Dom</span>.element&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;document&nbsp;:&nbsp;<span class="constructor">Dom</span>.document<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_element_by_id&nbsp;:&nbsp;<span class="constructor">Dom</span>.document&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Dom</span>.element&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_element_by_id&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Dom</span>.document&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_external</span>.<span class="constructor">Dom</span>.element&nbsp;option<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;stop_propagation&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.event_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;prevent_default&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.event_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_target&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.event_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.eventTarget_like<br>
