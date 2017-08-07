@@ -3,8 +3,22 @@
 (** This snabbdom function is not supported *)
 exception Not_supported
 
-(** A vnode_transformer is any function which modifies a Snabbdom vnode. *)
-type vnode_transformer = Snabbdom_external.VNode.t -> Snabbdom_external.VNode.t
+(** A Snabbdom patch function (returned by `init`) which takes an old DOM element or vnode and patches it to match a new vnode *)
+type patchfn = Snabbdom_vnode.t -> Snabbdom_vnode.t -> unit
+
+(** This type refers to a Snabbdom Module. Any
+    modules with this type can be passed to `init` to
+    create a patching function.
+    
+    {{:https://github.com/snabbdom/snabbdom#modules-documentation} See the Snabbdom documentation for details on modules}
+
+    If you've built a custom module, you can define it using:
+    {[external my_module : snabbdom_module = "default" \[\@\@bs.module "path/to/module"\]]}
+    *)
+type snabbdom_module
+
+(** Create a Snabbdom patch function from an array of snabbdom modules. *)
+val init : snabbdom_module array -> patchfn
 
 (** The recommended function for creating Snabbdom vnodes. Note this function
     doesn't work exactly like {{:https://github.com/snabbdom/snabbdom#snabbdomh} Snabbdom's `h` function}
@@ -25,36 +39,33 @@ type vnode_transformer = Snabbdom_external.VNode.t -> Snabbdom_external.VNode.t
   text "Hello World!"
 \]]}
     *)
-val h : string -> vnode_transformer list -> Snabbdom_external.VNode.t
-
-(** A convenience transformer for setting a path in the `data` element of the vnode. *)
-val set_data_path : string array -> 'a -> vnode_transformer
+val h : string -> Snabbdom_vnode.transformer list -> Snabbdom_vnode.t
 
 (** Add child vnodes *)
-val children : Snabbdom_external.VNode.t list -> vnode_transformer
+val children : Snabbdom_vnode.t list -> Snabbdom_vnode.transformer
 
 (** Adds text to the body of the node *)
-val text : string -> vnode_transformer
+val text : string -> Snabbdom_vnode.transformer
 
 (** Sets the Snabbdom key for this node. Use this on
     lists of items to help Snabbdom reconcile the old
     and new nodes and reuse nodes that belong to the
     same key when reordering the list. *)
-val key : string -> vnode_transformer
+val key : string -> Snabbdom_vnode.transformer
 
 (** Don't transform the {!type:Snabbdom_external.VNode.t}. Can be useful for if statements:
 
     {[if is_active then style "is-active" else nothing]}
 *)
-val nothing : vnode_transformer
+val nothing : Snabbdom_vnode.transformer
 
-val module_attributes : Snabbdom_external.snabbdom_module
-val attr : string -> string -> vnode_transformer
+val module_attributes : snabbdom_module
+val attr : string -> string -> Snabbdom_vnode.transformer
 
-val module_class : Snabbdom_external.snabbdom_module
-val class_name : string -> vnode_transformer
+val module_class : snabbdom_module
+val class_name : string -> Snabbdom_vnode.transformer
 
-val module_style : Snabbdom_external.snabbdom_module
-val style : string -> string -> vnode_transformer
-val style_delayed : string -> string -> vnode_transformer
-val style_remove : string -> string -> vnode_transformer
+val module_style : snabbdom_module
+val style : string -> string -> Snabbdom_vnode.transformer
+val style_delayed : string -> string -> Snabbdom_vnode.transformer
+val style_remove : string -> string -> Snabbdom_vnode.transformer

@@ -1,9 +1,10 @@
 open Snabbdom.Base
 open Snabbdom.Props
 open Snabbdom.Events
+open Snabbdom.Dom
 module Store = Snabbdom.Simple_store
 
-let patch = Snabbdom_external.init [|
+let patch = init [|
     module_props;
     module_attributes;
     module_eventlisteners;
@@ -70,18 +71,18 @@ let view store =
     let state = Store.get_state store in
 
     let cb action ev =
-        Snabbdom_external.Dom.prevent_default ev;
-        Snabbdom_external.Dom.stop_propagation ev;
+        prevent_default ev;
+        stop_propagation ev;
         Store.dispatch store action
     in
 
     let onChange ev = next_tick (fun () ->
-        let value = (ev |> Snabbdom_external.Dom.get_target |> Snabbdom_external.Dom.get_value) in
+        let value = (ev |> get_target |> get_value) in
         Store.dispatch store (SetText value)
     ) in
 
     let onCheck ev =
-        let value = (ev |> Snabbdom_external.Dom.get_target |> Snabbdom_external.Dom.is_checked ) in
+        let value = (ev |> get_target |> is_checked ) in
         Store.dispatch store (ToggleShow value)
     in
 
@@ -122,10 +123,7 @@ let view store =
 
 exception No_root_element
 
-let vnode = ref (match (Snabbdom_external.Dom.get_element_by_id Snabbdom_external.Dom.document "app") with
-    | Some el -> Snabbdom_external.VNode.of_dom_element el
-    | None -> raise No_root_element
-    )
+let vnode = ref (Snabbdom.VNode.from_dom_id "app")
 
 let reducer state action =
     match action with

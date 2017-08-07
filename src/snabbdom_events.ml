@@ -1,15 +1,15 @@
 open Snabbdom_base
-module Ex = Snabbdom_external
+module VNode = Snabbdom_vnode
 
-external module_eventlisteners : Ex.snabbdom_module = "default" [@@bs.module "snabbdom/modules/eventlisteners"]
+external module_eventlisteners : snabbdom_module = "default" [@@bs.module "snabbdom/modules/eventlisteners"]
 
 (* Helper for waiting until post-render before calling a callback *)
 let next_tick cb =
-    let _ = Ex.Dom.set_timeout cb 0 in
+    let _ = Snabbdom_dom.set_timeout cb 0 in
     ()
 
 type 'a event_cb = ('a -> unit)
-let event_listener key cb = set_data_path [|"on"; key|] cb
+let event_listener key cb = VNode.set_in_data [|"on"; key|] cb
 
 let event event (cb:Dom.event event_cb) = event_listener event cb
 let change = event "change"
