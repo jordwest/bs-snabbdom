@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Snabbdom_dom.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Snabbdom_base" rel="Chapter" href="Snabbdom_base.html">
+<link title="Snabbdom_data" rel="Chapter" href="Snabbdom_data.html">
+<link title="Snabbdom_dom" rel="Chapter" href="Snabbdom_dom.html">
+<link title="Snabbdom_vnode" rel="Chapter" href="Snabbdom_vnode.html"><title>Snabbdom_vnode</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Snabbdom_dom.html" title="Snabbdom_dom">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Snabbdom_vnode.html">Snabbdom_vnode</a></h1>
+
+<pre><span class="keyword">module</span> Snabbdom_vnode: <code class="code">sig</code> <a href="Snabbdom_vnode.html">..</a> <code class="code">end</code></pre><div class="info module top">
+The VNode module provides types and functions for interacting with native Snabbdom vdom nodes<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+Represents a Snabbdom vnode<br>
+</div>
+
+
+<pre><span id="TYPEtransformer"><span class="keyword">type</span> <code class="type"></code>transformer</span> = <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> <a href="Snabbdom_vnode.html#TYPEt">t</a></code> </pre>
+<div class="info ">
+A transformer is any function which modifies a Snabbdom vnode.<br>
+</div>
+
+
+<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type">unit -> <a href="Snabbdom_vnode.html#TYPEt">t</a></code></pre>
+<pre><span id="VALset_sel"><span class="keyword">val</span> set_sel</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALset_data"><span class="keyword">val</span> set_data</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> <a href="Snabbdom_data.html#TYPEt">Snabbdom_data.t</a> -> unit</code></pre>
+<pre><span id="VALset_children"><span class="keyword">val</span> set_children</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> <a href="Snabbdom_vnode.html#TYPEt">t</a> array -> unit</code></pre>
+<pre><span id="VALset_text"><span class="keyword">val</span> set_text</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALset_key"><span class="keyword">val</span> set_key</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> string -> unit</code></pre>
+<pre><span id="VALclear_text"><span class="keyword">val</span> clear_text</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALget_children"><span class="keyword">val</span> get_children</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> <a href="Snabbdom_vnode.html#TYPEt">t</a> array option</code></pre>
+<pre><span id="VALget_elm"><span class="keyword">val</span> get_elm</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> Dom.element option</code></pre>
+<pre><span id="VALget_text"><span class="keyword">val</span> get_text</span> : <code class="type"><a href="Snabbdom_vnode.html#TYPEt">t</a> -> string option</code></pre>
+<pre><span id="VALset_in_data"><span class="keyword">val</span> set_in_data</span> : <code class="type">string array -> 'a -> <a href="Snabbdom_vnode.html#TYPEt">t</a> -> <a href="Snabbdom_vnode.html#TYPEt">t</a></code></pre><div class="info ">
+Sets an object property somewhere in the vnode data object.
+<p>
+
+    Pass an array of strings representing the path to the property to be set, followed
+    by the property value. Intermediate objects will be created if they don't already exist.
+<p>
+
+    For example, to set the vnode's key property like the following (in JavaScript):
+    <pre class="codepre"><code class="code">vnode.data.ns = "xyz"</code></pre>
+<p>
+
+    Use:
+    <pre class="codepre"><code class="code">let vnode = set_in_data [|"ns"|] "xyz" vnode</code></pre><br>
+</div>
+
+<pre><span id="EXCEPTIONElement_with_id_not_found"><span class="keyword">exception</span> Element_with_id_not_found</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+<div class="info ">
+Exception raised when <a href="Snabbdom_vnode.html#VALfrom_dom_id"><code class="code">Snabbdom_vnode.from_dom_id</code></a> is called with an
+    element id that does not exist.<br>
+</div>
+
+<pre><span id="VALfrom_dom_id"><span class="keyword">val</span> from_dom_id</span> : <code class="type">string -> <a href="Snabbdom_vnode.html#TYPEt">t</a></code></pre><div class="info ">
+Create a VNode from an element in the DOM with the specified id.
+<p>
+
+    This function may raise an <a href="Snabbdom_vnode.html#EXCEPTIONElement_with_id_not_found"><code class="code">Snabbdom_vnode.Element_with_id_not_found</code></a> exception.<br>
+</div>
+
+<pre><span id="VALof_dom_element"><span class="keyword">val</span> of_dom_element</span> : <code class="type">Dom.element -> <a href="Snabbdom_vnode.html#TYPEt">t</a></code></pre><div class="info ">
+Compile-time conversion of DOM elements to a Snabbdom vnode.
+<p>
+
+    This function doesn't actually do anything at runtime.
+    Since the Snabbdom patch function allows us to use
+    an existing DOM element as an 'old' vnode, this function
+    just explicitly tells the compiler that we know what we're
+    doing.<br>
+</div>
+</body></html>

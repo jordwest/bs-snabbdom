@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Snabbdom_base.html">
+<link rel="next" href="Snabbdom_dom.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Snabbdom_base" rel="Chapter" href="Snabbdom_base.html">
+<link title="Snabbdom_data" rel="Chapter" href="Snabbdom_data.html">
+<link title="Snabbdom_dom" rel="Chapter" href="Snabbdom_dom.html">
+<link title="Snabbdom_vnode" rel="Chapter" href="Snabbdom_vnode.html"><title>Snabbdom_data</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Snabbdom_base.html" title="Snabbdom_base">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Snabbdom_dom.html" title="Snabbdom_dom">Next</a>
+</div>
+<h1>Module <a href="type_Snabbdom_data.html">Snabbdom_data</a></h1>
+
+<pre><span class="keyword">module</span> Snabbdom_data: <code class="code">sig</code> <a href="Snabbdom_data.html">..</a> <code class="code">end</code></pre><div class="info module top">
+The Data module provides functions for interacting with the data object passed to snabbdom's h function.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+Represents a Snabbdom data object.
+<p>
+
+    Essentially this is just a standard JavaScript object. For example:
+<p>
+
+    <pre class="codepre"><code class="code">{
+    style: {
+        color: '#000',
+        'font-weight': 'bold'
+    },
+    on: {
+        click: function(e) { e.preventDefault() }
+    }
+}</code></pre><br>
+</div>
+
+
+<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type">unit -> <a href="Snabbdom_data.html#TYPEt">t</a></code></pre><div class="info ">
+Return a new, empty Snabbdom data object. This is equivalent to JavaScript <code class="code">{}</code><br>
+</div>
+
+<pre><span id="VALset_in_path"><span class="keyword">val</span> set_in_path</span> : <code class="type"><a href="Snabbdom_data.html#TYPEt">t</a> -> string array -> 'a -> <a href="Snabbdom_data.html#TYPEt">t</a></code></pre><div class="info ">
+Sets an object property somewhere in the data object.
+<p>
+
+    Pass an array of strings representing the path to the property to be set, followed
+    by the property value. Intermediate objects will be created if they don't already exist.
+<p>
+
+    For example, to add a property like the following (in JavaScript):
+    <pre class="codepre"><code class="code">{ style: { color: '#000' } }</code></pre>
+<p>
+
+    Use:
+    <pre class="codepre"><code class="code">let data = set_in_path data [|"style"; "color"|] "#000"</code></pre><br>
+</div>
+</body></html>

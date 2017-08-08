@@ -1,0 +1,33 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Snabbdom_base" rel="Chapter" href="Snabbdom_base.html">
+<link title="Snabbdom_data" rel="Chapter" href="Snabbdom_data.html">
+<link title="Snabbdom_dom" rel="Chapter" href="Snabbdom_dom.html">
+<link title="Snabbdom_vnode" rel="Chapter" href="Snabbdom_vnode.html"><title>Snabbdom_vnode</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;transformer&nbsp;=&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_sel&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_data&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_data</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_children&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_text&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_key&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;clear_text&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_children&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;array&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_elm&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Dom</span>.element&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_text&nbsp;:&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_in_data&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">Element_with_id_not_found</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;from_dom_id&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_dom_element&nbsp;:&nbsp;<span class="constructor">Dom</span>.element&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_vnode</span>.t<br>
+<span class="keyword">end</span></code></body></html>

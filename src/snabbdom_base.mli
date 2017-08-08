@@ -29,7 +29,7 @@ val init : snabbdom_module array -> patchfn
     The first parameter is the same as Snabbdom's - an html selector describing the element
     type and any classes/id to apply to the element.
 
-    The second parameter takes a list of {!type:vnode_transformer} functions, which
+    The second parameter takes a list of {!type:Snabbdom_vnode.transformer} functions, which
     specify how to create the vnode. Some transformers are implemented in this
     module below.
 
@@ -53,7 +53,7 @@ val text : string -> Snabbdom_vnode.transformer
     same key when reordering the list. *)
 val key : string -> Snabbdom_vnode.transformer
 
-(** Don't transform the {!type:Snabbdom_external.VNode.t}. Can be useful for if statements:
+(** Don't transform the {!type:Snabbdom_vnode.t}. Can be useful for if statements:
 
     {[if is_active then style "is-active" else nothing]}
 *)

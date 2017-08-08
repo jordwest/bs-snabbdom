@@ -1,0 +1,28 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Snabbdom_base" rel="Chapter" href="Snabbdom_base.html">
+<link title="Snabbdom_data" rel="Chapter" href="Snabbdom_data.html">
+<link title="Snabbdom_dom" rel="Chapter" href="Snabbdom_dom.html">
+<link title="Snabbdom_vnode" rel="Chapter" href="Snabbdom_vnode.html"><title>Snabbdom_dom</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;element&nbsp;=&nbsp;<span class="constructor">Dom</span>.element<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;focus&nbsp;:&nbsp;<span class="constructor">Snabbdom_dom</span>.element&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;document&nbsp;:&nbsp;<span class="constructor">Dom</span>.document<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_element_by_id&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Dom</span>.document&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Snabbdom_dom</span>.element&nbsp;option<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;stop_propagation&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.event_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;prevent_default&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.event_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_target&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.event_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.eventTarget_like<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_value&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.eventTarget_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_event_key&nbsp;:&nbsp;<span class="constructor">Dom</span>.keyboardEvent&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;is_checked&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Dom</span>.eventTarget_like&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;set_timeout&nbsp;:&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+<span class="keyword">end</span></code></body></html>
