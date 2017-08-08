@@ -85,9 +85,7 @@ npm install snabbdom bs-snabbdom
 ### Write some code
 
 ```ocaml
-
 open Snabbdom.Base
-open Snabbdom.External
 
 (* Define a function that returns a new virtual dom node *)
 let view title =
