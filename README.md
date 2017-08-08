@@ -15,7 +15,7 @@ This project was inspired by [bucklescript-tea](https://github.com/OvermindDL1/b
 
 ## Introduction
 
-This project adds basic OCaml bindings for Snabbdom functions, as well as a thin layer over Snabbdom's `h` function to make the API more OCaml friendly and statically typed.
+This project adds basic OCaml bindings for Snabbdom functions, as well as an OCaml friendly replacement `h` function for constructing virtual dom nodes.
 
 In JavaScript, you might write something like the following:
 
