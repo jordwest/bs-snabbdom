@@ -55,7 +55,7 @@ val key : string -> Snabbdom_vnode.transformer
 
 (** Don't transform the {!type:Snabbdom_vnode.t}. Can be useful for if statements:
 
-    {[if is_active then style "is-active" else nothing]}
+    {[if is_active then class_name "is-active" else nothing]}
 *)
 val nothing : Snabbdom_vnode.transformer
 
