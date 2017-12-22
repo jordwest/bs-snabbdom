@@ -11,6 +11,19 @@
   },
   "author": "Jordan West",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jordwest/bs-snabbdom.git"
+  },
+  "homeepge": "https://github.com/jordwest/bs-snabbdom#readme",
+  "bugs": "https://github.com/jordwest/bs-snabbdom/issues",
+  "keywowrds": [
+    "bucklescript",
+    "ocaml",
+    "snabbdom",
+    "dom",
+    "virtual dom"
+  ],
   "peerDependencies": {
     "snabbdom": "^0.6.9"
   },
