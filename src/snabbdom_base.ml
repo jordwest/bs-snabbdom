@@ -88,7 +88,7 @@ let attr key (value:string) = VNode.set_in_data [|"attrs"; key|] value
 
 (* Class module *)
 external module_class : snabbdom_module = "default" [@@bs.module "snabbdom/modules/class"]
-let class_name key = VNode.set_in_data [|"class"; key|] Js.true_
+let class_name key = VNode.set_in_data [|"class"; key|] true
 
 (* Style module *)
 external module_style : snabbdom_module = "default" [@@bs.module "snabbdom/modules/style"]
