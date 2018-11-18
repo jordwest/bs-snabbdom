@@ -2,9 +2,10 @@
 type t
 
 type data_val
-external to_data_val : 'a -> data_val = "%identity"
 
-let raw_empty : unit -> t = [%bs.raw{|function() { return {} } |}]
+external to_data_val : 'a -> data_val = "%identity"
+external raw_empty : unit -> t = "" [@@bs.obj]
+
 let raw_set_in_path : t -> string array -> data_val -> t = [%bs.raw{|
 function(data, path, value){
     var base = data || {};
